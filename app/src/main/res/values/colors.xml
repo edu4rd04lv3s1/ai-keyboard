@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- ============ Tema ESCURO — Executive Graphite ============ -->
+    <color name="kb_background">#FF090B10</color>
+    <color name="kb_surface">#FF10131A</color>
+    <color name="kb_surface_raised">#FF171B24</color>
+    <color name="kb_key_bg">#FF222838</color>
+    <color name="kb_key_bg_pressed">#FF333B50</color>
+    <color name="kb_key_special_bg">#FF161B27</color>
+    <color name="kb_key_special_pressed">#FF2B3449</color>
+    <color name="kb_stroke">#FF2A3141</color>
+    <color name="kb_text">#FFF5F7FB</color>
+    <color name="kb_text_muted">#FF9AA3B6</color>
+    <color name="kb_accent">#FF8B7CFF</color>
+    <color name="kb_accent_pressed">#FF7767F4</color>
+    <color name="kb_whatsapp">#FF1FAF67</color>
+    <color name="kb_whatsapp_pressed">#FF188C52</color>
+
+    <!-- ============ Tema CLARO — Daylight ============ -->
+    <color name="kb_light_background">#FFE7E9EF</color>
+    <color name="kb_light_surface">#FFFFFFFF</color>
+    <color name="kb_light_surface_raised">#FFFFFFFF</color>
+    <color name="kb_light_key_bg">#FFFFFFFF</color>
+    <color name="kb_light_key_bg_pressed">#FFCBD2E0</color>
+    <color name="kb_light_key_special_bg">#FFD5DAE5</color>
+    <color name="kb_light_key_special_pressed">#FFBFC7D6</color>
+    <color name="kb_light_stroke">#FFC9CFDC</color>
+    <color name="kb_light_text">#FF11141C</color>
+    <color name="kb_light_text_muted">#FF5C6577</color>
+    <color name="kb_light_accent">#FF6A5AE0</color>
+    <color name="kb_light_accent_pressed">#FF5544D4</color>
+    <color name="kb_light_whatsapp">#FF12A85B</color>
+    <color name="kb_light_whatsapp_pressed">#FF0E9450</color>
+</resources>

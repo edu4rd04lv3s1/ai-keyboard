@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- Não fazer backup da API key encriptada -->
+    <exclude domain="sharedpref" path="ai_keyboard_secure_prefs.xml" />
+</full-backup-content>

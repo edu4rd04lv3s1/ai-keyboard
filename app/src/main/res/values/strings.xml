@@ -1,0 +1,144 @@
+<resources>
+    <string name="app_name">AI Keyboard</string>
+    <string name="keyboard_name">AI Keyboard</string>
+
+    <!-- Subtypes -->
+    <string name="subtype_pt">Português (Brasil)</string>
+    <string name="subtype_en">English (US)</string>
+
+    <!-- Setup screen -->
+    <string name="hero_subtitle">Teclado rápido com IA sob demanda</string>
+    <string name="hero_enabled">Ativo</string>
+    <string name="hero_disabled">Inativo</string>
+    <string name="hero_selected">Selecionado</string>
+    <string name="hero_not_selected">Não selecionado</string>
+    <string name="hero_ai_ready">IA pronta</string>
+    <string name="hero_ai_pending">IA pendente</string>
+    <string name="section_start">Começar</string>
+    <string name="section_ai">IA sob demanda</string>
+    <string name="section_keyboard">Teclado</string>
+    <string name="section_personalization">Personalização</string>
+    <string name="section_test">Teste rápido</string>
+    <string name="setup_step1_title">1. Ativar o teclado</string>
+    <string name="setup_step1_desc">Habilite o AI Keyboard nas configurações do sistema.</string>
+    <string name="setup_step1_action">Abrir configurações de teclado</string>
+    <string name="setup_step1_done">Teclado habilitado</string>
+
+    <string name="setup_step2_title">2. Selecionar como padrão</string>
+    <string name="setup_step2_desc">Escolha o AI Keyboard como método de entrada atual.</string>
+    <string name="setup_step2_action">Selecionar teclado</string>
+    <string name="setup_step2_done">Teclado selecionado</string>
+
+    <string name="setup_step3_title">3. Chave da API Groq</string>
+    <string name="setup_step3_desc">Cole sua API key da Groq (groq.com). Ela fica criptografada no dispositivo.</string>
+    <string name="api_key_placeholder">gsk_…</string>
+
+    <string name="setup_step4_title">4. Chave da API Gemini (fallback)</string>
+    <string name="setup_step4_desc">Opcional. Quando a Groq atingir o limite, o app usa o Gemini automaticamente. Pegue em aistudio.google.com/apikey.</string>
+    <string name="gemini_key_placeholder">AIza…</string>
+    <string name="save_api_key">Salvar chave</string>
+    <string name="remove_action">Remover</string>
+    <string name="api_key_present">Chave salva: %1$s</string>
+
+    <string name="test_field_label">Teste o teclado aqui</string>
+    <string name="test_field_hint">Digite algo e toque em \"Corrigir com IA\"…</string>
+
+    <!-- Keyboard UI -->
+    <string name="action_correct">Corrigir</string>
+    <string name="action_whatsapp">WhatsApp</string>
+    <string name="action_professional">Profissional</string>
+    <string name="action_enhance">Aprimorar</string>
+    <string name="action_shorten">Mais curto</string>
+    <string name="action_elaborate">Expandir</string>
+    <string name="action_humanize">Humanizar</string>
+    <string name="action_friendly">Simpático</string>
+    <string name="action_polite">Educado</string>
+    <string name="action_casual">Casual</string>
+    <string name="action_social">Social</string>
+    <string name="action_emojify">Emojify</string>
+    <string name="action_summarize">Resumo</string>
+    <string name="action_rewrite">Reescrever</string>
+    <string name="action_translate">EN</string>
+    <string name="action_translate_pt">PT-BR</string>
+    <string name="action_quick_phrases">Frases</string>
+    <string name="action_clipboard">Clips</string>
+    <string name="action_paste">Colar</string>
+    <string name="action_formal">Formal</string>
+    <string name="action_undo">Desfazer</string>
+    <string name="action_undo_unavailable">Não há alteração de IA para desfazer</string>
+    <string name="action_clear">Limpar</string>
+    <string name="action_clear_hint">Toque longo para apagar todo o texto</string>
+    <string name="action_clear_done">Texto apagado</string>
+    <string name="voice_listening">Ouvindo… toque no microfone para parar</string>
+    <string name="voice_need_permission">Permita o microfone para usar o ditado por voz</string>
+    <string name="voice_unavailable">Ditado por voz indisponível neste aparelho</string>
+    <string name="voice_error_permission">Permissão de microfone negada</string>
+    <string name="voice_error_network">Sem conexão para o ditado por voz</string>
+    <string name="voice_error_generic">Não consegui entender, tente de novo</string>
+    <string name="error_no_api_key">Configure a API key no app primeiro</string>
+    <string name="error_no_text">Selecione ou digite algum texto</string>
+    <string name="error_network">Sem internet ou conexão falhou. Verifique a rede e tente de novo.</string>
+    <string name="error_api">Erro da IA: %1$s</string>
+    <string name="error_apply_failed">Não consegui aplicar a correção (o campo perdeu o foco). Tente de novo.</string>
+    <string name="ai_no_changes">A IA não encontrou nada para corrigir</string>
+    <string name="clipboard_empty">Nada para colar</string>
+    <string name="quick_phrase_reply_soon">Já te respondo</string>
+    <string name="quick_phrase_arriving">Chego em 10 min</string>
+    <string name="quick_phrase_send_address">Me manda o endereço</string>
+    <string name="quick_phrase_thanks">Obrigado, vou verificar</string>
+    <string name="quick_phrase_can_be">Pode ser</string>
+    <string name="quick_phrase_call_later">Te ligo mais tarde</string>
+    <string name="key_space">espaço</string>
+    <string name="ai_manual_title">Correção manual</string>
+    <string name="ai_manual_body">O app só transforma texto quando você toca em uma ação de IA. A digitação fica local, com sugestões aprendidas, histórico de clips sob demanda e gestos rápidos no teclado.</string>
+
+    <!-- Settings -->
+    <string name="settings_size_title">Tamanho do teclado</string>
+    <string name="settings_size_desc">Ajuste a altura das teclas</string>
+    <string name="size_small">Pequeno</string>
+    <string name="size_medium">Médio</string>
+    <string name="size_large">Grande</string>
+    <string name="size_xlarge">Extra grande</string>
+
+    <string name="settings_theme_title">Tema do teclado</string>
+    <string name="settings_theme_desc">Claro, escuro ou seguir o sistema</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_dark">Escuro</string>
+    <string name="theme_light">Claro</string>
+
+    <string name="settings_sound_title">Som ao digitar</string>
+    <string name="settings_sound_desc">Clique sonoro a cada tecla</string>
+
+    <string name="settings_gesture_title">Digitação por gesto</string>
+    <string name="settings_gesture_desc">Deslize o dedo pelas letras para escrever a palavra</string>
+
+    <string name="settings_autocorrect_title">Correção automática</string>
+    <string name="settings_autocorrect_desc">Escolha o quanto o teclado corrige sozinho ao dar espaço.</string>
+    <string name="autocorrect_off">Off</string>
+    <string name="autocorrect_light">Leve</string>
+    <string name="autocorrect_medium">Média</string>
+    <string name="autocorrect_strong">Forte</string>
+    <string name="autocorrect_ultimate">Ultimate</string>
+    <string name="autocorrect_off_desc">Não corrige sozinho. Você ainda vê sugestões na barra para tocar.</string>
+    <string name="autocorrect_light_desc">Só o óbvio: acentos e erros bem claros. Quase nunca erra.</string>
+    <string name="autocorrect_medium_desc">Equilibrada: corrige a maioria dos erros reais e raramente erra.</string>
+    <string name="autocorrect_strong_desc">Corrige bastante (estilo Gboard). Pode trocar uma palavra — backspace desfaz.</string>
+    <string name="autocorrect_ultimate_desc">Máxima inteligência: entende erros de teclas vizinhas e várias trocas na mesma palavra (ampr→amor, trcladp→teclado). Backspace desfaz.</string>
+
+    <string name="settings_haptic_title">Vibração ao digitar</string>
+    <string name="settings_haptic_desc">Feedback tátil em cada tecla</string>
+
+    <string name="settings_suggestions_title">Sugestões de palavras</string>
+    <string name="settings_suggestions_desc">Mostra até 3 sugestões após uma breve pausa enquanto você digita, incluindo correções locais, próximas palavras, palavras aprendidas e emojis contextuais. Toque para inserir. Long-press salva no seu dicionário pessoal.</string>
+
+    <string name="settings_userdict_title">Dicionário pessoal</string>
+    <string name="settings_userdict_desc">Palavras suas priorizadas nas sugestões quando esse recurso estiver ativo. Long-press numa sugestão também adiciona aqui.</string>
+    <string name="settings_userdict_placeholder">Adicionar palavra…</string>
+    <string name="settings_userdict_empty">Nenhuma palavra ainda. Long-press numa sugestão do teclado pra adicionar.</string>
+
+    <string name="dict_added">Adicionada: %1$s</string>
+
+    <!-- About -->
+    <string name="about_title">Sobre</string>
+    <string name="about_body">AI Keyboard usa a API Groq (Llama 3.3) para corrigir e melhorar seu texto. Nenhum dado sai do dispositivo, exceto quando você invoca a IA — aí o texto vai diretamente para api.groq.com via HTTPS.</string>
+</resources>

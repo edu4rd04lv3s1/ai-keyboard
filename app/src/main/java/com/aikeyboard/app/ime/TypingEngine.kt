@@ -257,27 +257,40 @@ class TypingEngine(
 
         val out = mutableListOf<SuggestionCandidate>()
         val seenWords = mutableSetOf<String>()
+        val hasCorrection = correction != null && !correction.equals(prefix, ignoreCase = false)
+        val normalizedOriginal = PortugueseLexicon.normalize(prefix)
+        val normalizedCorrection = correction?.let(PortugueseLexicon::normalize)
 
         fun add(candidate: SuggestionCandidate) {
             val key = when (candidate.type) {
+                SuggestionType.ORIGINAL -> "original:${candidate.value}"
+                SuggestionType.CORRECTION -> "correction:${PortugueseLexicon.normalize(candidate.value)}"
                 SuggestionType.EMOJI -> "emoji:${candidate.value}"
                 SuggestionType.QUICK_PHRASE -> "quick:${candidate.value.lowercase()}"
-                else -> PortugueseLexicon.normalize(candidate.value)
+                SuggestionType.CLIPBOARD -> "clipboard:${candidate.value.lowercase()}"
+                SuggestionType.WORD -> "word:${PortugueseLexicon.normalize(candidate.value)}"
             }
             if (seenWords.add(key)) out += candidate
         }
 
-        correction?.let {
-            if (!it.equals(prefix, ignoreCase = false)) {
-                add(SuggestionCandidate(it, SuggestionType.CORRECTION))
-            }
+        if (hasCorrection) {
+            add(SuggestionCandidate(prefix, SuggestionType.ORIGINAL))
+            add(SuggestionCandidate(correction!!, SuggestionType.CORRECTION))
         }
 
         emojiSuggestions(prefix)
             .forEach { add(SuggestionCandidate(it, SuggestionType.EMOJI)) }
 
         suggestions(prefix, userDictionary, personalization)
-            .forEach { add(SuggestionCandidate(it, SuggestionType.WORD)) }
+            .forEach { suggestion ->
+                val normalizedSuggestion = PortugueseLexicon.normalize(suggestion)
+                val duplicatesOriginalOrCorrection = hasCorrection &&
+                    (normalizedSuggestion == normalizedOriginal ||
+                        normalizedSuggestion == normalizedCorrection)
+                if (!duplicatesOriginalOrCorrection) {
+                    add(SuggestionCandidate(suggestion, SuggestionType.WORD))
+                }
+            }
 
         return out.take(MAX_SUGGESTIONS)
     }

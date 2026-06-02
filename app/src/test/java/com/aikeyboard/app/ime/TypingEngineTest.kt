@@ -62,7 +62,8 @@ class TypingEngineTest {
     fun richSuggestionsPutCorrectionFirst() {
         val suggestions = engine.suggestionCandidates("voce", emptySet())
 
-        assertEquals(SuggestionCandidate("você", SuggestionType.CORRECTION), suggestions.first())
+        assertEquals(SuggestionCandidate("voce", SuggestionType.ORIGINAL), suggestions[0])
+        assertEquals(SuggestionCandidate("você", SuggestionType.CORRECTION), suggestions[1])
     }
 
     @Test
@@ -70,6 +71,24 @@ class TypingEngineTest {
         val suggestions = engine.suggestionCandidates("feliz", emptySet())
 
         assertEquals(SuggestionCandidate("😊", SuggestionType.EMOJI), suggestions.first())
+    }
+
+    @Test
+    fun correctionSuggestionsKeepOriginalAndFilterDuplicateThirdCandidate() {
+        val suggestions = engine.suggestionCandidates(
+            prefix = "pro",
+            userDictionary = emptySet(),
+            correction = "profissional"
+        )
+
+        assertEquals(
+            listOf(
+                SuggestionCandidate("pro", SuggestionType.ORIGINAL),
+                SuggestionCandidate("profissional", SuggestionType.CORRECTION),
+                SuggestionCandidate("projeto", SuggestionType.WORD)
+            ),
+            suggestions
+        )
     }
 
     @Test

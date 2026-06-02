@@ -734,6 +734,16 @@ class AIKeyboardService : InputMethodService(), KeyboardActionListener {
         ic.beginBatchEdit()
         try {
             when (candidate.type) {
+                SuggestionType.ORIGINAL -> {
+                    realWordBeforeCursor(ic)?.let { icDeleteBefore(ic, it.length) }
+                    icCommitText(ic, candidate.value + " ")
+                    val memo = correctionMemo
+                    if (memo != null && memo.word == candidate.value && memo.result != null) {
+                        personalizationStore.recordRejectedCorrection(candidate.value, memo.result)
+                    }
+                    personalizationStore.recordCommittedWord(candidate.value)
+                    lastGestureCommit = null
+                }
                 SuggestionType.WORD, SuggestionType.CORRECTION -> {
                     // Substitui a palavra-alvo pela escolha do usuário + espaço.
                     // Alvo: a palavra do gesto (palavra+espaço) ou, ao digitar, a
@@ -765,7 +775,8 @@ class AIKeyboardService : InputMethodService(), KeyboardActionListener {
         }
         resetComposingWord()
         // Palavra/correção terminam em espaço → habilita o atalho de ponto final.
-        justCommittedSpace = candidate.type == SuggestionType.WORD ||
+        justCommittedSpace = candidate.type == SuggestionType.ORIGINAL ||
+            candidate.type == SuggestionType.WORD ||
             candidate.type == SuggestionType.CORRECTION
         updateAutoShiftState(ic)
     }

@@ -12,6 +12,7 @@ data class SuggestionCandidate(
 )
 
 enum class SuggestionType {
+    ORIGINAL,
     WORD,
     CORRECTION,
     EMOJI,

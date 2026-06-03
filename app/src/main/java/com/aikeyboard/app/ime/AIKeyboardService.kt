@@ -510,6 +510,46 @@ class AIKeyboardService : InputMethodService(), KeyboardActionListener {
         }
 
         // 3) Espaço normal: fecha a palavra REAL e, se permitido, autocorrige.
+        val contextualDecision = when {
+            !fieldPolicy.autocorrect -> ContextualCorrectionDecision(null)
+            !lexiconReady -> ContextualCorrectionDecision(null)
+            settings.autocorrectLevel == com.aikeyboard.app.data.AutocorrectLevel.OFF ->
+                ContextualCorrectionDecision(null)
+            else -> typingEngine.contextualBoundaryCorrection(
+                textBeforeCursor = before,
+                userDictionary = userDictionary,
+                personalization = personalizationStore.snapshot,
+                level = settings.autocorrectLevel
+            )
+        }
+        val contextualEdit = contextualDecision.candidate
+        if (contextualEdit != null) {
+            val originalTail = contextualOriginalTail(before, contextualEdit)
+            val correctedTail = contextualCorrectedTail(before, contextualEdit)
+
+            ic.beginBatchEdit()
+            try {
+                icDeleteBefore(ic, before.length - contextualEdit.replaceStart)
+                icCommitText(ic, correctedTail)
+                icCommitText(ic, " ")
+            } finally {
+                ic.endBatchEdit()
+            }
+
+            recordContextualLearning(before, contextualEdit, correctedTail)
+            pendingAutoCorrect = PendingAutoCorrect(
+                original = originalTail,
+                corrected = correctedTail,
+                originalRejected = contextualEdit.originalRejected,
+                correctedRejected = contextualEdit.correctedRejected
+            )
+            correctionMemo = null
+            resetComposingWord()
+            justCommittedSpace = true
+            if (!capsLock && fieldPolicy.autoCap) setShift(false)
+            return
+        }
+
         val bounds = findLastWordBounds(before)
         val originalWord = bounds?.let(before::substring)
         val isProperNoun = bounds != null && originalWord != null &&
@@ -619,7 +659,10 @@ class AIKeyboardService : InputMethodService(), KeyboardActionListener {
                 } finally {
                     ic.endBatchEdit()
                 }
-                personalizationStore.recordRejectedCorrection(pending.original, pending.corrected)
+                personalizationStore.recordRejectedCorrection(
+                    pending.originalRejected,
+                    pending.correctedRejected
+                )
                 resetComposingWord()
                 return
             }
@@ -1034,6 +1077,22 @@ class AIKeyboardService : InputMethodService(), KeyboardActionListener {
         setShift(shouldAutoCapitalize(before))
     }
 
+    private fun recordContextualLearning(
+        textBeforeCursor: String,
+        edit: ContextualCorrectionCandidate,
+        correctedTail: String
+    ) {
+        val prefixPrevious = learningWords(textBeforeCursor.substring(0, edit.replaceStart)).lastOrNull()
+        var previous = prefixPrevious ?: previousCommittedWord
+        val committedWords = learningWords(correctedTail)
+        committedWords.forEach { word ->
+            personalizationStore.recordCommittedWord(word)
+            previous?.let { personalizationStore.recordBigram(it, word) }
+            previous = word
+        }
+        previousCommittedWord = committedWords.lastOrNull() ?: previous
+    }
+
     private fun readTargetText(ic: InputConnection): TargetText {
         val selected = ic.getSelectedText(0)?.toString()
         if (!selected.isNullOrBlank()) {
@@ -1109,7 +1168,9 @@ class AIKeyboardService : InputMethodService(), KeyboardActionListener {
  */
 private data class PendingAutoCorrect(
     val original: String,
-    val corrected: String
+    val corrected: String,
+    val originalRejected: String = original,
+    val correctedRejected: String = corrected
 )
 
 /**
@@ -1185,6 +1246,30 @@ internal fun shouldAutoCapitalize(textBeforeCursor: String): Boolean {
         else -> false
     }
 }
+
+internal fun applyContextualEditToText(
+    textBeforeCursor: String,
+    edit: ContextualCorrectionCandidate
+): String =
+    textBeforeCursor.substring(0, edit.replaceStart) +
+        edit.replacement +
+        textBeforeCursor.substring(edit.replaceEnd)
+
+internal fun contextualOriginalTail(
+    textBeforeCursor: String,
+    edit: ContextualCorrectionCandidate
+): String = textBeforeCursor.substring(edit.replaceStart)
+
+internal fun contextualCorrectedTail(
+    textBeforeCursor: String,
+    edit: ContextualCorrectionCandidate
+): String = edit.replacement + textBeforeCursor.substring(edit.replaceEnd)
+
+internal fun learningWords(text: String): List<String> =
+    Regex("""[\p{L}][\p{L}'-]*""").findAll(text)
+        .map { it.value }
+        .filter { it.any(Char::isLetter) }
+        .toList()
 
 private fun isWordChar(value: Char): Boolean = value.isLetter() || value == '\'' || value == '-'
 

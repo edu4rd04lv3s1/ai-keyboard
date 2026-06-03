@@ -122,6 +122,18 @@ c120	OFF	off	voce	<NONE>	ASSERT
 c121	OFF	off	qaundo	<NONE>	ASSERT
 c122	OFF	off	rapdio	<NONE>	ASSERT
 c123	OFF	off	trabhalo	<NONE>	ASSERT
+c124	MEDIUM	context	Vice	Você	ASSERT
+c125	MEDIUM	context	o vice	<NONE>	ASSERT
+c126	MEDIUM	context	vice-presidente	<NONE>	ASSERT
+c127	MEDIUM	context	Você e minha	Você é minha	ASSERT
+c128	MEDIUM	context	vc e minha	vc é minha	ASSERT
+c129	MEDIUM	context	Você e meu	Você é meu	ASSERT
+c130	MEDIUM	context	vc e meu	vc é meu	ASSERT
+c131	MEDIUM	context	você e eu	<NONE>	ASSERT
+c132	MEDIUM	context	você e ela	<NONE>	ASSERT
+c133	MEDIUM	context	Você e você	<NONE>	ASSERT
+c134	MEDIUM	context	Vice e minha neguinha linda e maravilhosa	Você é minha neguinha linda e maravilhosa	ASSERT
+c135	MEDIUM	context	você e ele	<NONE>	ASSERT
 o001	MEDIUM	context	esta	está	OBSERVE
 o002	MEDIUM	context	e	é	OBSERVE
 o003	MEDIUM	context	a	à	OBSERVE

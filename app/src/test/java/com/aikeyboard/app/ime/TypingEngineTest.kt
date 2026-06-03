@@ -11,8 +11,16 @@ class TypingEngineTest {
     private val lexicon = PortugueseLexicon(
         listOf(
             "de",
+            "e",
+            "é",
             "não",
             "você",
+            "vc",
+            "vice",
+            "minha",
+            "meu",
+            "eu",
+            "ela",
             "quando",
             "casa",
             "caso",
@@ -158,6 +166,59 @@ class TypingEngineTest {
     }
 
     @Test
+    fun contextualCorrectionFixesViceAtSentenceStart() {
+        assertEquals("Você", applyContextual("Vice"))
+        assertEquals("você", applyContextual("vice"))
+        assertEquals("Oi. Você", applyContextual("Oi. Vice"))
+    }
+
+    @Test
+    fun contextualCorrectionDoesNotChangeNominalVice() {
+        assertNull(engine.contextualBoundaryCorrection("o vice", emptySet()).candidate)
+        assertNull(engine.contextualBoundaryCorrection("a vice", emptySet()).candidate)
+        assertNull(engine.contextualBoundaryCorrection("do vice", emptySet()).candidate)
+        assertNull(engine.contextualBoundaryCorrection("da vice", emptySet()).candidate)
+        assertNull(engine.contextualBoundaryCorrection("ao vice", emptySet()).candidate)
+        assertNull(engine.contextualBoundaryCorrection("à vice", emptySet()).candidate)
+        assertNull(engine.contextualBoundaryCorrection("vice-presidente", emptySet()).candidate)
+    }
+
+    @Test
+    fun contextualCorrectionRetrofitsSerAttribution() {
+        val decision = engine.contextualBoundaryCorrection("Você e minha", emptySet())
+        val edit = requireNotNull(decision.candidate)
+
+        assertEquals("Você é minha", applyContextualEditToText("Você e minha", edit))
+        assertEquals("e", edit.originalRejected)
+        assertEquals("é", edit.correctedRejected)
+    }
+
+    @Test
+    fun contextualCorrectionSupportsVcAndMeuOnlyInHighConfidencePatterns() {
+        assertEquals("vc é minha", applyContextual("vc e minha"))
+        assertEquals("Você é meu", applyContextual("Você e meu"))
+        assertEquals("vc é meu", applyContextual("vc e meu"))
+    }
+
+    @Test
+    fun contextualCorrectionDoesNotChangeRealConjunctions() {
+        assertNull(engine.contextualBoundaryCorrection("você e eu", emptySet()).candidate)
+        assertNull(engine.contextualBoundaryCorrection("você e ela", emptySet()).candidate)
+        assertNull(engine.contextualBoundaryCorrection("você e ele", emptySet()).candidate)
+        assertNull(engine.contextualBoundaryCorrection("você e você", emptySet()).candidate)
+    }
+
+    @Test
+    fun contextualCorrectionConvergesProgressivelyForWhatsappPhrase() {
+        val typed = "Vice e minha neguinha linda e maravilhosa"
+
+        assertEquals(
+            "Você é minha neguinha linda e maravilhosa",
+            simulateProgressiveAutocorrect(typed)
+        )
+    }
+
+    @Test
     fun lightLevelFixesUnambiguousButNotFrequencyTies() {
         // LIGHT corrige o inequívoco (acento via mapa local)...
         assertEquals("você", engine.boundaryCorrection("voce", emptySet(), level = AutocorrectLevel.LIGHT))
@@ -229,6 +290,31 @@ class TypingEngineTest {
 
     private fun ultimate(typo: String, dict: Set<String> = emptySet()) =
         ultimateEngine.boundaryCorrection(typo, dict, level = AutocorrectLevel.ULTIMATE)
+
+    private fun applyContextual(text: String): String? =
+        engine.contextualBoundaryCorrection(text, emptySet())
+            .candidate
+            ?.let { applyContextualEditToText(text, it) }
+
+    private fun simulateProgressiveAutocorrect(text: String): String {
+        var current = ""
+        text.trim().split(Regex("\\s+")).forEach { word ->
+            current = if (current.isEmpty()) word else "$current $word"
+            current = closeCurrentWord(current)
+        }
+        return current
+    }
+
+    private fun closeCurrentWord(text: String): String {
+        engine.contextualBoundaryCorrection(text, emptySet())
+            .candidate
+            ?.let { return applyContextualEditToText(text, it) }
+
+        val bounds = findLastWordBounds(text) ?: return text
+        val original = text.substring(bounds)
+        val corrected = engine.boundaryCorrection(original, emptySet()) ?: return text
+        return text.substring(0, bounds.first) + corrected + text.substring(bounds.last + 1)
+    }
 
     @Test
     fun ultimateFixesSingleAdjacentKeyTypo() {

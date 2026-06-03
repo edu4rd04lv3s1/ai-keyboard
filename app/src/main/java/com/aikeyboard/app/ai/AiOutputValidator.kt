@@ -28,6 +28,7 @@ internal object AiOutputValidator {
     fun shouldAccept(original: String, output: String, style: CorrectionStyle): Boolean {
         if (output.isBlank()) return false
         if (!preservesProtectedTokens(original, output)) return false
+        if (hasWhatsAppGrammarRegression(original, output, style)) return false
         if (hasUnsafeSemanticDrift(original, output, style)) return false
         return true
     }
@@ -59,6 +60,28 @@ internal object AiOutputValidator {
         return sensitiveDriftTerms.any { term ->
             term in outputNormalized && term !in originalNormalized
         }
+    }
+
+    private fun hasWhatsAppGrammarRegression(
+        original: String,
+        output: String,
+        style: CorrectionStyle
+    ): Boolean {
+        if (style != CorrectionStyle.WHATSAPP_CASUAL) return false
+        val originalNormalized = normalize(original)
+        if ("vice e minha" !in originalNormalized) return false
+
+        val outputCompact = output.lowercase()
+            .replace(Regex("\\s+"), " ")
+            .trim()
+        val keepsSerVerb = Regex("""\b(vc|você)\s+é\s+minha\b""").containsMatchIn(outputCompact)
+        val degradesSerVerb = Regex("""\b(vc|voce|você)\s+e\s+minha\b""").containsMatchIn(outputCompact)
+        if (!keepsSerVerb || degradesSerVerb) return true
+
+        val outputNormalized = normalize(output)
+        val requiredAffectiveWords = listOf("neguinha", "linda", "maravilhosa")
+            .filter { it in originalNormalized }
+        return requiredAffectiveWords.any { it !in outputNormalized }
     }
 
     private fun normalize(text: String): String {

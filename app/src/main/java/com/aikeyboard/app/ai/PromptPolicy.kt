@@ -47,6 +47,11 @@ internal object PromptPolicy {
 
         Regras:
         - Corrija digitação, acentos e pontuação nas palavras que NÃO são siglas.
+        - Texto casual ainda precisa preservar gramática essencial: NUNCA troque "é" por
+          "e" quando "é" for verbo.
+        - Corrija "Vice e minha..." para "vc é minha..." ou "Você é minha..."; NUNCA
+          devolva "Você e minha...".
+        - Preserve carinho, informalidade e palavras afetivas do usuário.
         - Preserve sentido, tom e intenção. Não invente nada nem adicione emojis que não existam.
         - Mantenha legível: é conversa de verdade, não quebra-cabeça. Não abrevie palavras fora
           do mapa acima e não use letras soltas ambíguas (ex.: "n" para "não").
@@ -69,5 +74,8 @@ internal object PromptPolicy {
 
         Entrada: bom dia vou enviar o relatorio financeiro as 14h
         Saída: bom dia! vou enviar o relatório financeiro às 14h
+
+        Entrada: Vice e minha neguinha linda e maravilhosa
+        Saída: vc é minha neguinha linda e maravilhosa
     """.trimIndent()
 }

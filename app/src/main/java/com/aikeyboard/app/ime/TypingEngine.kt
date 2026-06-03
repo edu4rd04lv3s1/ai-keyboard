@@ -3,6 +3,31 @@ package com.aikeyboard.app.ime
 import com.aikeyboard.app.data.AutocorrectLevel
 import com.aikeyboard.app.data.PersonalizationSnapshot
 
+data class ContextualCorrectionRequest(
+    val textBeforeCursor: String,
+    val currentWord: String?,
+    val previousTokens: List<String>,
+    val userDictionary: Set<String>,
+    val personalization: PersonalizationSnapshot,
+    val level: AutocorrectLevel
+)
+
+data class ContextualCorrectionCandidate(
+    val replaceStart: Int,
+    val replaceEnd: Int,
+    val replacement: String,
+    val originalRejected: String,
+    val correctedRejected: String,
+    val reason: String,
+    val confidence: Double
+)
+
+data class ContextualCorrectionDecision(
+    val candidate: ContextualCorrectionCandidate?,
+    val confidence: Double = candidate?.confidence ?: 0.0,
+    val reason: String? = candidate?.reason
+)
+
 /**
  * Motor local de digitação PT-BR.
  *
@@ -21,6 +46,52 @@ class TypingEngine(
      * que o primeiro keystroke pague o custo de inicialização.
      */
     fun warmup(): Int = lexicon.words.size
+
+    /**
+     * Primeira camada de autocorreção contextual local.
+     *
+     * O formato Request -> Candidate -> Decision antecipa um ranker real: neste
+     * sprint os candidatos ainda são regras determinísticas de altíssima
+     * confiança, mas a decisão já passa por score, bloqueios e personalização.
+     */
+    fun contextualBoundaryCorrection(
+        textBeforeCursor: String,
+        userDictionary: Set<String>,
+        personalization: PersonalizationSnapshot = PersonalizationSnapshot(),
+        level: AutocorrectLevel = AutocorrectLevel.MEDIUM
+    ): ContextualCorrectionDecision {
+        if (level == AutocorrectLevel.OFF || textBeforeCursor.isBlank()) {
+            return ContextualCorrectionDecision(null, reason = "disabled")
+        }
+
+        val allTokens = contextualTokens(textBeforeCursor)
+        if (allTokens.isEmpty()) return ContextualCorrectionDecision(null, reason = "no_tokens")
+        val tokens = allTokens.takeLast(MAX_CONTEXTUAL_TOKENS)
+        val request = ContextualCorrectionRequest(
+            textBeforeCursor = textBeforeCursor,
+            currentWord = tokens.lastOrNull()?.text,
+            previousTokens = tokens.dropLast(1).map { it.text },
+            userDictionary = userDictionary,
+            personalization = personalization,
+            level = level
+        )
+
+        val candidates = buildContextualCandidates(request, tokens)
+            .filterNot { personalization.isRejected(it.originalRejected, it.correctedRejected) }
+            .filter { it.replacement != textBeforeCursor.substring(it.replaceStart, it.replaceEnd) }
+
+        val winner = candidates
+            .sortedWith(
+                compareByDescending<ContextualCorrectionCandidate> { it.confidence }
+                    .thenByDescending { it.replaceEnd - it.replaceStart }
+            )
+            .firstOrNull()
+
+        return ContextualCorrectionDecision(
+            candidate = winner,
+            reason = winner?.reason ?: "no_high_confidence_candidate"
+        )
+    }
 
     /**
      * Correção ao fechar a palavra com espaço/pontuação.
@@ -424,6 +495,146 @@ class TypingEngine(
 
     private data class ScoredWord(val word: String, val score: Double)
 
+    private fun buildContextualCandidates(
+        request: ContextualCorrectionRequest,
+        tokens: List<ContextToken>
+    ): List<ContextualCorrectionCandidate> = buildList {
+        for (index in tokens.indices) {
+            viceCandidate(request.textBeforeCursor, tokens, index)?.let(::add)
+            attributionCandidate(request.textBeforeCursor, tokens, index)?.let(::add)
+        }
+    }
+
+    private fun viceCandidate(
+        textBeforeCursor: String,
+        tokens: List<ContextToken>,
+        index: Int
+    ): ContextualCorrectionCandidate? {
+        val token = tokens[index]
+        if (token.normalized != "vice") return null
+        if (isNominalVice(tokens, index)) return null
+        if (!isSentenceStart(textBeforeCursor, token.start)) return null
+
+        val replacement = applyCase(token.text, "você")
+        return ContextualCorrectionCandidate(
+            replaceStart = token.start,
+            replaceEnd = token.end,
+            replacement = replacement,
+            originalRejected = token.text,
+            correctedRejected = replacement,
+            reason = "vice_to_voce_sentence_start",
+            confidence = 0.96
+        )
+    }
+
+    private fun attributionCandidate(
+        textBeforeCursor: String,
+        tokens: List<ContextToken>,
+        index: Int
+    ): ContextualCorrectionCandidate? {
+        if (index + 2 >= tokens.size) return null
+        val subject = tokens[index]
+        val connector = tokens[index + 1]
+        val possessive = tokens[index + 2]
+        if (!isContextualSubject(subject, textBeforeCursor, tokens, index)) return null
+        if (!isPlainUnaccentedE(connector.text)) return null
+        if (possessive.normalized !in HIGH_CONFIDENCE_POSSESSIVES) return null
+        if (!hasOnlyWhitespaceBetween(textBeforeCursor, subject, connector)) return null
+        if (!hasOnlyWhitespaceBetween(textBeforeCursor, connector, possessive)) return null
+
+        val replacementE = applyCase(connector.text, "é")
+        val subjectReplacement = if (subject.normalized == "vice") {
+            applyCase(subject.text, "você")
+        } else {
+            subject.text
+        }
+
+        val replaceStart: Int
+        val replacement: String
+        if (subject.normalized == "vice") {
+            replaceStart = subject.start
+            replacement = "$subjectReplacement $replacementE ${possessive.text}"
+        } else {
+            replaceStart = connector.start
+            replacement = "$replacementE ${possessive.text}"
+        }
+
+        return ContextualCorrectionCandidate(
+            replaceStart = replaceStart,
+            replaceEnd = possessive.end,
+            replacement = replacement,
+            originalRejected = connector.text,
+            correctedRejected = replacementE,
+            reason = "ser_possessive_attribution",
+            confidence = 0.99
+        )
+    }
+
+    private fun isContextualSubject(
+        token: ContextToken,
+        textBeforeCursor: String,
+        tokens: List<ContextToken>,
+        index: Int
+    ): Boolean {
+        if (token.normalized in HIGH_CONFIDENCE_SUBJECTS) return true
+        if (token.normalized != "vice") return false
+        if (isNominalVice(tokens, index)) return false
+        return isSentenceStart(textBeforeCursor, token.start)
+    }
+
+    private fun isNominalVice(tokens: List<ContextToken>, index: Int): Boolean {
+        if (tokens[index].text.contains('-')) return true
+        val previous = tokens.getOrNull(index - 1)?.normalized ?: return false
+        return previous in NOMINAL_VICE_PREVIOUS
+    }
+
+    private fun isSentenceStart(text: String, tokenStart: Int): Boolean {
+        var index = tokenStart - 1
+        while (index >= 0 && text[index].isWhitespace()) index--
+        if (index < 0) return true
+        return text[index] in CONTEXTUAL_SENTENCE_BOUNDARIES
+    }
+
+    private fun hasOnlyWhitespaceBetween(
+        text: String,
+        left: ContextToken,
+        right: ContextToken
+    ): Boolean = text.substring(left.end, right.start).all(Char::isWhitespace)
+
+    private fun isPlainUnaccentedE(text: String): Boolean =
+        text.length == 1 && text[0].lowercaseChar() == 'e'
+
+    private fun contextualTokens(text: String): List<ContextToken> {
+        val tokens = ArrayList<ContextToken>(MAX_CONTEXTUAL_TOKENS)
+        var index = 0
+        while (index < text.length) {
+            if (!isContextTokenChar(text[index])) {
+                index++
+                continue
+            }
+            val start = index
+            while (index < text.length && isContextTokenChar(text[index])) index++
+            val token = text.substring(start, index)
+            tokens += ContextToken(
+                start = start,
+                end = index,
+                text = token,
+                normalized = PortugueseLexicon.normalize(token)
+            )
+        }
+        return tokens
+    }
+
+    private fun isContextTokenChar(value: Char): Boolean =
+        value.isLetter() || value == '\'' || value == '-'
+
+    private data class ContextToken(
+        val start: Int,
+        val end: Int,
+        val text: String,
+        val normalized: String
+    )
+
     private fun emojiSuggestions(prefix: String): List<String> {
         val normalized = PortugueseLexicon.normalize(prefix)
         if (normalized.length < MIN_EMOJI_EXACT_LENGTH) return emptyList()
@@ -518,6 +729,12 @@ class TypingEngine(
         private const val MIN_EMOJI_EXACT_LENGTH = 2
         private const val MIN_EMOJI_COMPLETION_PREFIX_LENGTH = 4
         private const val MAX_EMOJI_SUGGESTIONS = 2
+        private const val MAX_CONTEXTUAL_TOKENS = 8
+        private const val CONTEXTUAL_SENTENCE_BOUNDARIES = ".!?\n"
+
+        private val HIGH_CONFIDENCE_SUBJECTS = setOf("voce", "vc")
+        private val HIGH_CONFIDENCE_POSSESSIVES = setOf("minha", "meu")
+        private val NOMINAL_VICE_PREVIOUS = setOf("o", "a", "do", "da", "ao")
 
         private val COMMON_STARTERS = listOf(
             "eu",

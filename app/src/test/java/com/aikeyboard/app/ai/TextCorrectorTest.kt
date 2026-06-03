@@ -27,6 +27,10 @@ class TextCorrectorTest {
         assertTrue(prompt.contains("também→tbm"))
         // Regra central: as siglas são corretas neste modo e nunca são expandidas.
         assertTrue(prompt.contains("NUNCA as expanda"))
+        // Casual não pode degradar gramática essencial.
+        assertTrue(prompt.contains("NUNCA troque \"é\" por"))
+        assertTrue(prompt.contains("Vice e minha"))
+        assertTrue(prompt.contains("Você e minha"))
     }
 
     @Test

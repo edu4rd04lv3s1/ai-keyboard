@@ -1,6 +1,11 @@
 # style	expected	original	output
 WHATSAPP_CASUAL	ACCEPT	voce pode me mandar o endereço depois	vc pode me mandar o endereço dps?
 WHATSAPP_CASUAL	REJECT	Meu amor sabe o que eu vou fazer com você	Você está me ameaçando
+WHATSAPP_CASUAL	ACCEPT	Vice e minha neguinha linda e maravilhosa	vc é minha neguinha linda e maravilhosa
+WHATSAPP_CASUAL	ACCEPT	Vice e minha neguinha linda e maravilhosa	Você é minha neguinha linda e maravilhosa
+WHATSAPP_CASUAL	REJECT	Vice e minha neguinha linda e maravilhosa	Você e minha neguinha linda e maravilhosa
+WHATSAPP_CASUAL	REJECT	Vice e minha neguinha linda e maravilhosa	Você é minha linda e maravilhosa
+WHATSAPP_CASUAL	REJECT	Vice e minha neguinha linda e maravilhosa	Você é minha companheira maravilhosa
 HUMANIZE	ACCEPT	A reunião é dia 12/05 às 14:30 com @maria	A reunião será no dia 12/05 às 14:30 com @maria.
 HUMANIZE	REJECT	A reunião é dia 12/05 às 14:30 com @maria	A reunião será amanhã com Maria.
 PROFESSIONAL	ACCEPT	Veja os detalhes em https://exemplo.com	Consulte os detalhes em https://exemplo.com.

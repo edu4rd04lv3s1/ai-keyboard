@@ -112,4 +112,58 @@ class AIKeyboardServiceLogicTest {
         assertFalse(isProperNoun("vou ver o marcelo"))
         assertFalse(isProperNoun("qaundo"))
     }
+
+    // ---------- Edição contextual curta ----------
+
+    @Test
+    fun contextualEdit_replacesOnlyRequestedTail() {
+        val before = "Você e minha"
+        val edit = ContextualCorrectionCandidate(
+            replaceStart = 5,
+            replaceEnd = 12,
+            replacement = "é minha",
+            originalRejected = "e",
+            correctedRejected = "é",
+            reason = "test",
+            confidence = 0.99
+        )
+
+        assertEquals("Você é minha", applyContextualEditToText(before, edit))
+        assertEquals("e minha", contextualOriginalTail(before, edit))
+        assertEquals("é minha", contextualCorrectedTail(before, edit))
+    }
+
+    @Test
+    fun contextualEdit_correctedTailIncludesSuffixAfterEditedRange() {
+        val before = "Você e minha neguinha"
+        val edit = ContextualCorrectionCandidate(
+            replaceStart = 5,
+            replaceEnd = 12,
+            replacement = "é minha",
+            originalRejected = "e",
+            correctedRejected = "é",
+            reason = "test",
+            confidence = 0.99
+        )
+
+        assertEquals("Você é minha neguinha", applyContextualEditToText(before, edit))
+        assertEquals("e minha neguinha", contextualOriginalTail(before, edit))
+        assertEquals("é minha neguinha", contextualCorrectedTail(before, edit))
+    }
+
+    @Test
+    fun contextualUndo_usesRejectedPairFromDecisionNotWholeTail() {
+        val edit = ContextualCorrectionCandidate(
+            replaceStart = 5,
+            replaceEnd = 12,
+            replacement = "é minha",
+            originalRejected = "e",
+            correctedRejected = "é",
+            reason = "test",
+            confidence = 0.99
+        )
+
+        assertEquals("e", edit.originalRejected)
+        assertEquals("é", edit.correctedRejected)
+    }
 }

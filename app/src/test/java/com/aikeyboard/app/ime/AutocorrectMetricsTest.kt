@@ -20,14 +20,8 @@ class AutocorrectMetricsTest {
 
         val engine = TypingEngine(PortugueseLexicon(loadLexiconWords()))
         val results = cases.map { row ->
-            var actual: String?
             val start = System.nanoTime()
-            actual = engine.boundaryCorrection(
-                word = row.typed,
-                userDictionary = emptySet(),
-                personalization = PersonalizationSnapshot(),
-                level = row.level
-            )
+            val actual = evaluateAutocorrect(engine, row)
             val elapsed = System.nanoTime() - start
             EvalResult(row, actual, elapsed)
         }
@@ -69,6 +63,51 @@ class AutocorrectMetricsTest {
                 }
                 .toList()
         }
+    }
+
+    private fun evaluateAutocorrect(engine: TypingEngine, row: EvalCase): String? {
+        val corrected = if (row.typed.any(Char::isWhitespace)) {
+            simulateProgressiveTyping(engine, row.typed, row.level)
+        } else {
+            closeCurrentWord(engine, row.typed, row.level)
+        }
+        return corrected.takeUnless { it == row.typed }
+    }
+
+    private fun simulateProgressiveTyping(
+        engine: TypingEngine,
+        text: String,
+        level: AutocorrectLevel
+    ): String {
+        var current = ""
+        text.trim().split(Regex("\\s+")).forEach { word ->
+            current = if (current.isEmpty()) word else "$current $word"
+            current = closeCurrentWord(engine, current, level)
+        }
+        return current
+    }
+
+    private fun closeCurrentWord(
+        engine: TypingEngine,
+        text: String,
+        level: AutocorrectLevel
+    ): String {
+        engine.contextualBoundaryCorrection(
+            textBeforeCursor = text,
+            userDictionary = emptySet(),
+            personalization = PersonalizationSnapshot(),
+            level = level
+        ).candidate?.let { return applyContextualEditToText(text, it) }
+
+        val bounds = findLastWordBounds(text) ?: return text
+        val original = text.substring(bounds)
+        val corrected = engine.boundaryCorrection(
+            word = original,
+            userDictionary = emptySet(),
+            personalization = PersonalizationSnapshot(),
+            level = level
+        ) ?: return text
+        return text.substring(0, bounds.first) + corrected + text.substring(bounds.last + 1)
     }
 
     private fun loadLexiconWords(): List<String> {

@@ -1,11 +1,11 @@
 # Codex for Open Source — application draft
 
 > Internal notes for applying to OpenAI's Codex for Open Source program. Not part of the app.
-> Replace `<REPO_URL>` with the final public repository URL before submitting.
+> Replace https://github.com/Edward1611/ai-keyboard with the final public repository URL before submitting.
 
 **Project name:** AI Keyboard
 
-**Repository:** `<REPO_URL>`
+**Repository:** https://github.com/Edward1611/ai-keyboard
 
 **Short description:**
 AI Keyboard is an open-source Android keyboard focused on Brazilian Portuguese, privacy-first local autocorrection, and optional, user-controlled AI-assisted writing actions.

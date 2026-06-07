@@ -22,5 +22,17 @@ keystore.properties
 
 # OS files
 Thumbs.db
+__MACOSX/
 
 /app/build/
+
+# Kotlin
+.kotlin/
+
+# Build artifacts
+*.apk
+*.aab
+
+# Env files
+.env
+.env.local

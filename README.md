@@ -1,212 +1,194 @@
 # AI Keyboard
 
-Teclado de IA para Android (APK nativo, Kotlin + Jetpack Compose) com autocorreção local em PT-BR e ações de IA via **Groq** (Llama 3.3 70B, com modo rápido para WhatsApp), com fallback opcional para Gemini, para corrigir, reescrever e traduzir texto diretamente em qualquer campo de entrada do sistema.
+![Platform](https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white)
+![Language](https://img.shields.io/badge/Kotlin-2.0.21-7F52FF?logo=kotlin&logoColor=white)
+![Min SDK](https://img.shields.io/badge/minSdk-26-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Status](https://img.shields.io/badge/status-alpha-orange)
 
-## Recursos
+**AI Keyboard** is an open-source Android keyboard focused on Brazilian Portuguese, privacy, and AI-assisted writing.
 
-- **Teclado QWERTY** funcional (português + inglês) declarado como IME (`InputMethodService`), desenhado em `Canvas` para latência mínima.
-- **Digitação instantânea e multitoque**: o caractere é inserido no instante do toque (ACTION_DOWN), não ao soltar o dedo; dois polegares podem digitar em paralelo sem perder teclas.
-- **Digitação por gesto (swipe)**: deslize o dedo pelas letras e o teclado decodifica a palavra usando o léxico PT-BR; as demais hipóteses ficam tocáveis na barra de sugestões. Só vira swipe com 3+ teclas, então um toque com leve deslize nunca é confundido com gesto.
-- **Feedback ao digitar**: vibração tátil (`HapticFeedbackConstants.KEYBOARD_TAP`), *key-preview* (a letra ampliada que sobe acima do dedo) e som de tecla opcional — tudo configurável.
-- **Tema do teclado** claro, escuro ou seguindo o sistema, resolvido em tempo real.
-- **Números e acentos por toque-longo**: a fileira superior expõe `1–0` (com indicação no canto da tecla) junto dos acentos (ç, ã, ó…).
-- **Modos `ABC / ?123` e emoji**, auto-capitalização e atalho de dois espaços para ponto final.
-- **Autocorreção local PT-BR** ao fechar a palavra, com nível selecionável (Off / Leve / Média / Forte / Máxima) e *auto-undo*: um backspace logo após a correção a desfaz e registra o par como rejeitado.
-- **Correção que não atrapalha**: gírias e abreviações (`vc`, `pra`, `pq`, `blz`, `vlw`…), risadas (`kkk`, `rsrs`, `haha`), alongamentos enfáticos (`siiim`), marcas em CamelCase (`iPhone`, `WhatsApp`) e tokens com dígito nunca são "corrigidos". É o que torna o nível agressivo confiável.
-- **Consciente do campo**: senha, e-mail, URL e campos numéricos desligam automaticamente autocorreção, sugestões e auto-maiúscula.
-- **Caminho de digitação sem IPC**: a palavra em composição e a posição do cursor são espelhadas localmente e sincronizadas via `onUpdateSelection`, eliminando os round-trips de processo (`getSelectedText`/`getTextBeforeCursor`) que travavam cada espaço/backspace.
-- **Barra de IA rolável** acima do teclado com ações manuais: Corrigir, WhatsApp, Reescrever, Profissional, Formal, Simpático, Mais curto, Expandir, Resumo, Emojify e tradução EN/PT-BR (via **Groq**, com fallback **Gemini**).
-- **Ditado por voz** (🎤) via `SpeechRecognizer` nativo (PT-BR, ao vivo).
-- **Sugestões ricas** com correção local tocável, próximas palavras, dicionário pessoal, aprendizado local por frequência de uso e emoji contextual — em barra de altura fixa (as teclas nunca "pulam").
-- **Transformações de IA somente sob comando**: nada é enviado à rede enquanto você digita; a IA só roda quando você toca numa ação.
-- **Acentos via long-press**, substituição de texto in-place via `InputConnection` (funciona em qualquer app) e **API key criptografada** com `EncryptedSharedPreferences`.
-- **Material 3** com tema claro/escuro na tela de configuração.
+It combines fast local autocorrection, PT-BR–aware suggestions, and on-demand AI actions such as correction, rewriting, summarization, WhatsApp-style text, and translation. Unlike traditional AI writing apps that live inside a single app or a cloud platform, AI Keyboard works directly inside **any** Android text field through the system keyboard interface (`InputMethodService`), while keeping every network request under the user's explicit control.
 
-## Stack
+> **Status: alpha.** Core keyboard behavior, local correction, AI actions, and provider integration are implemented and unit-tested, but the project still needs more device testing, accessibility review, UI refinement, and community feedback. See [ROADMAP.md](ROADMAP.md).
 
-| Camada                  | Tecnologia                                      |
-|-------------------------|-------------------------------------------------|
-| Linguagem               | Kotlin 2.0.21                                   |
-| UI configuração         | Jetpack Compose + Material 3                    |
-| UI teclado              | View clássica (`LinearLayout` programático)     |
-| Build                   | Gradle 8.x + AGP 8.7.3                          |
-| HTTP                    | OkHttp 4 + kotlinx.serialization                |
-| Async                   | Kotlin Coroutines                               |
-| IA                      | Groq API (`llama-3.3-70b-versatile`; WhatsApp usa `llama-3.1-8b-instant`) + fallback Gemini |
-| Min SDK / Target SDK    | 26 (Android 8.0) / 35 (Android 15)              |
+## Why this project matters
 
-## Estrutura
+Most AI writing tools are locked inside specific apps, cloud platforms, or commercial keyboards. AI Keyboard explores a transparent, auditable, privacy-first alternative for Android users — especially Portuguese-speaking users who need corrections that preserve slang, abbreviations, informal writing, and real conversational tone.
+
+The project is also a useful reference for developers who want to study Android IME behavior, on-device autocorrection, encrypted key storage, and AI-assisted text transformation inside system-level input fields.
+
+## Key features
+
+- **QWERTY IME** (Portuguese + English) declared as an `InputMethodService`, rendered on a `Canvas` for minimal latency.
+- **Instant, multitouch typing** — the character is committed on `ACTION_DOWN` (touch), not on release, so two thumbs can type in parallel without dropped keys.
+- **Gesture (swipe) typing** decoded against the local PT-BR lexicon; alternatives stay tappable in the suggestion bar. Only turns into a swipe at 3+ keys, so a tap with a slight slide is never mistaken for a gesture.
+- **Local PT-BR autocorrection** on word boundary, with selectable strength (Off / Light / Medium / Strong / Maximum) and **auto-undo**: a backspace right after a correction reverts it and records the pair as rejected.
+- **Slang-safe correction** — `vc`, `pra`, `pq`, `blz`, laughter (`kkk`, `rsrs`), emphatic stretches (`siiim`), CamelCase brands (`iPhone`, `WhatsApp`) and tokens with digits are never "corrected". This is what makes aggressive levels trustworthy.
+- **Field-aware** — password, email, URL, and numeric fields automatically disable autocorrection, suggestions, and auto-capitalization.
+- **On-demand AI actions** in a scrollable bar above the keyboard: Correct, WhatsApp, Rewrite, Professional, Formal, Friendly, Shorten, Expand, Summarize, Emojify, and EN/PT-BR translation.
+- **Groq** as the primary AI provider (`llama-3.3-70b-versatile`; WhatsApp mode uses `llama-3.1-8b-instant`) with an optional **Gemini** (`gemini-2.0-flash`) fallback.
+- **Voice dictation** (🎤) via the native `SpeechRecognizer` (live PT-BR).
+- **Rich suggestions** — tappable local corrections, next-word prediction, a personal dictionary, local frequency-based learning, and contextual emoji — in a fixed-height bar so keys never jump.
+- **Privacy by design** — no analytics, no telemetry, no ad SDKs. AI runs only when you tap an action; local typing never touches the network.
+
+## How it works
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  User types or selects text in any app                   │
+└────────────────────┬─────────────────────────────────────┘
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│  AIKeyboardService (InputMethodService)                  │
+│  ├─ Local autocorrect / suggestions (no network)         │
+│  └─ On AI chip tap: read text via InputConnection,       │
+│     apply system prompt, send to provider                │
+└────────────────────┬─────────────────────────────────────┘
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│  Groq API  →  (fallback) Gemini API   [HTTPS only]       │
+└────────────────────┬─────────────────────────────────────┘
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│  Text replaced in-place via                              │
+│  InputConnection.beginBatchEdit + commitText             │
+└─────────────────────────────────────────────────────────┘
+```
+
+## Tech stack
+
+| Layer            | Technology                                                                 |
+|------------------|----------------------------------------------------------------------------|
+| Language         | Kotlin 2.0.21                                                               |
+| Settings UI      | Jetpack Compose + Material 3                                                |
+| Keyboard UI      | Custom `Canvas`/View rendering                                              |
+| Build            | Gradle 9.0.0 + AGP 8.7.3, JDK 17                                            |
+| HTTP             | OkHttp 4 + kotlinx.serialization                                            |
+| Async            | Kotlin Coroutines                                                           |
+| AI providers     | Groq (`llama-3.3-70b-versatile` / `llama-3.1-8b-instant`) + Gemini fallback |
+| Secure storage   | AndroidX Security `EncryptedSharedPreferences` (user-entered keys)          |
+| Min / Target SDK | 26 (Android 8.0) / 35 (Android 15), compileSdk 35                           |
+
+## Project structure
 
 ```
 .
 ├── app/
-│   ├── build.gradle.kts
-│   └── src/main/
-│       ├── AndroidManifest.xml
-│       ├── java/com/aikeyboard/app/
-│       │   ├── KeyboardApp.kt           # Application + DI manual
-│       │   ├── MainActivity.kt          # Tela de setup (Compose)
-│       │   ├── ai/
-│       │   │   ├── GroqClient.kt        # Cliente HTTP Groq
-│       │   │   ├── GeminiClient.kt      # Fallback opcional
-│       │   │   └── TextCorrector.kt     # Estilos de transformação
-│       │   ├── data/
-│       │   │   ├── ApiKeyStore.kt       # API key criptografada
-│       │   │   └── PersonalizationStore.kt # Aprendizado local do usuário
-│       │   └── ime/
-│       │       ├── AIKeyboardService.kt # InputMethodService
-│       │       ├── KeyboardView.kt      # View do teclado
-│       │       ├── PortugueseLexicon.kt # Índices do léxico local PT-BR
-│       │       └── TypingEngine.kt      # Motor de sugestões locais
-│       └── res/                          # Layouts, cores, strings, ícone
+│   └── src/
+│       ├── main/
+│       │   ├── AndroidManifest.xml
+│       │   ├── java/com/aikeyboard/app/
+│       │   │   ├── KeyboardApp.kt          # Application + manual DI
+│       │   │   ├── MainActivity.kt         # Compose setup screen
+│       │   │   ├── ai/                      # AiClient, GroqClient, GeminiClient,
+│       │   │   │                            # TextCorrector, AiOutputValidator, PromptPolicy
+│       │   │   ├── data/                    # ApiKeyStore (encrypted), Settings/Personalization/
+│       │   │   │                            # UserDictionary/ClipboardHistory stores
+│       │   │   └── ime/                     # AIKeyboardService (IME), KeyboardView,
+│       │   │                                # TypingEngine, LocalCorrections, PortugueseLexicon,
+│       │   │                                # FieldPolicy, VoiceInputController…
+│       │   └── res/                         # layouts, colors, strings, raw/pt_br_words.txt
+│       └── test/java/com/aikeyboard/app/    # 88 JVM unit tests (8 files)
 ├── build.gradle.kts
 ├── settings.gradle.kts
-├── gradle.properties
-└── gradle/libs.versions.toml             # Version catalog
+├── gradle/libs.versions.toml               # version catalog
+├── PERFORMANCE.md · SECURITY.md · ROADMAP.md · CONTRIBUTING.md
+└── local.properties.example                # copy to local.properties, add your keys
 ```
 
-## Setup (passo a passo)
+## Getting started
 
-### 1. Pré-requisitos
+### Prerequisites
 
-- **Android Studio** já instalado em `/Applications/Android Studio.app` (via Homebrew).
-- macOS com pelo menos 8 GB livres (Android SDK ocupa ~5 GB após download).
+- **Android Studio** (latest stable) with the Android SDK (compileSdk 35 / Build-Tools 35).
+- **JDK 17** (the Gradle build targets JVM 17).
 
-### 2. Configurar o Android SDK (primeira execução)
-
-1. Abrir o Android Studio:
-   ```bash
-   open -a "Android Studio"
-   ```
-2. Na primeira execução, o wizard pede para baixar:
-   - **Android SDK Platform 34** (obrigatório)
-   - **Android SDK Build-Tools 34.x**
-   - **Android Emulator** (opcional, mas útil)
-3. Deixar instalar (~15 min na primeira vez).
-
-### 3. Abrir o projeto
-
-1. **File → Open** → selecionar a pasta `ai-keyboard` (a raiz do projeto).
-2. Android Studio detecta o `build.gradle.kts` e faz **Gradle Sync** automaticamente.
-3. Se aparecer pedido para gerar `gradle wrapper`, aceitar.
-4. Aguardar todas as dependências baixarem (~5 min na primeira vez).
-
-### 4. Obter API key da Groq (grátis)
-
-1. Acessar [console.groq.com](https://console.groq.com).
-2. Criar conta (Google login funciona).
-3. Em **API Keys** → **Create API Key**, copiar a string `gsk_...`.
-
-### 5. Build e instalação
-
-#### Opção A: rodar em emulador
-
-1. **Tools → Device Manager → Create Device** → escolher Pixel 7 (ou similar) → API 34.
-2. Iniciar o emulador.
-3. Clicar no botão verde **▶ Run 'app'** na toolbar.
-
-#### Opção B: rodar em celular físico
-
-1. No celular, ativar **Modo desenvolvedor** (tocar 7× em "Número da versão" em Sobre).
-2. Ativar **Depuração USB** nas opções de desenvolvedor.
-3. Conectar via USB e aceitar o prompt de autorização.
-4. Selecionar o dispositivo na toolbar do Android Studio e **▶ Run**.
-
-#### Opção C: gerar APK para distribuir
+### 1. Clone and configure keys
 
 ```bash
-./gradlew assembleRelease
+git clone <your-fork-url> ai-keyboard
+cd ai-keyboard
+cp local.properties.example local.properties
 ```
 
-APK gerado em `app/build/outputs/apk/release/app-release-unsigned.apk`. Para instalar você precisa assinar o APK — veja [Assinatura](#assinatura-para-distribuição).
+Edit `local.properties` and set `sdk.dir` plus your own API keys. **`local.properties` is git-ignored and must never be committed.**
 
-#### Opção D: gerar APK otimizado para testar desempenho
+> **Note on keys & distribution.** For local development the build can read default keys from `local.properties` and expose them via `BuildConfig`. This is **for personal builds only** — any APK built this way embeds those keys in cleartext. Leave the key fields empty (or remove the `buildConfigField` injection in `app/build.gradle.kts`) before distributing a build. See [SECURITY.md](SECURITY.md).
+
+### 2. Build
 
 ```bash
-./gradlew assembleOptimizedDebug
+./gradlew assembleDebug          # debug APK
+./gradlew assembleRelease        # release APK (unsigned)
 ```
 
-Esse APK usa otimizações de release, mas é assinado com a chave debug para poder ser instalado rapidamente em testes locais.
+### 3. Enable the keyboard
 
-### 6. Configurar o teclado no Android
+1. Install and open the **AI Keyboard** app.
+2. Tap **Open keyboard settings** and enable AI Keyboard.
+3. Tap **Select keyboard** and choose AI Keyboard as the current input method.
+4. Paste your Groq API key in-app and save it (stored with `EncryptedSharedPreferences`).
+5. Open any app (WhatsApp, Notes, Chrome…), type, and tap an AI action.
 
-Depois de instalado:
-
-1. Abrir o app **AI Keyboard**.
-2. **Passo 1** — tocar em "Abrir configurações de teclado" e habilitar o AI Keyboard.
-3. **Passo 2** — tocar em "Selecionar teclado" e escolher o AI Keyboard como atual.
-4. **Passo 3** — colar a API key da Groq e tocar em "Salvar chave".
-5. Pronto: abra qualquer app (WhatsApp, Notes, Chrome…) e digite. Toque em **Corrigir com IA** para corrigir.
-
-## Como funciona
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  Usuário digita ou seleciona texto em qualquer app      │
-└────────────────────┬────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────┐
-│  AIKeyboardService (InputMethodService)                 │
-│  ├─ Lê texto via InputConnection                        │
-│  ├─ Aplica system prompt (Corrigir/Reescrever/Formal)   │
-│  └─ Envia para GroqClient                               │
-└────────────────────┬────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────┐
-│  Groq API (api.groq.com)                                │
-│  └─ llama-3.3-70b-versatile retorna texto corrigido     │
-└────────────────────┬────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────┐
-│  AIKeyboardService substitui o texto no campo via       │
-│  InputConnection.beginBatchEdit + commitText            │
-└─────────────────────────────────────────────────────────┘
-```
-
-## Privacidade
-
-- A API key fica **criptografada com AES-256-GCM** via `EncryptedSharedPreferences` (Tink/Keystore).
-- Nenhum texto é enviado a lugar nenhum **exceto** quando o usuário invoca manualmente uma ação de IA. Nesses casos, o texto vai direto para o provedor configurado via HTTPS com a chave dele.
-- Não há analytics, telemetria ou backup do que é digitado.
-
-## Assinatura para distribuição
-
-Para distribuir o APK fora do Play Store:
+## Running tests
 
 ```bash
-# 1. Gerar keystore (uma vez só, guardar com cuidado)
+./gradlew test
+```
+
+The suite has **88 JVM unit tests** across 8 files covering the typing/autocorrect engine, field policy, AI transformation styles, and output validation. Instrumented IME tests are not yet implemented (tracked in the roadmap).
+
+## Privacy and security
+
+AI Keyboard contains **no analytics, tracking, advertising SDKs, or telemetry**.
+
+- Local autocorrection and suggestions run entirely on-device and never touch the network.
+- AI requests are made **only** when you explicitly tap an AI action, sent over HTTPS directly to the configured provider.
+- **User-provided API keys** are stored locally with `EncryptedSharedPreferences` (AES-256-GCM via AndroidX Security / Keystore).
+- **Disclosure:** default/bundled keys injected at build time from `local.properties` are compiled into the APK via `BuildConfig` and are **not** encrypted at rest. This path exists only for personal builds and should be removed before public distribution.
+
+Full policy and reporting instructions: [SECURITY.md](SECURITY.md).
+
+## Distribution (signing)
+
+```bash
+# Generate a keystore once (store it safely, never commit it)
 keytool -genkey -v -keystore release.keystore \
   -alias aikeyboard -keyalg RSA -keysize 2048 -validity 10000
 
-# 2. Adicionar em ~/.gradle/gradle.properties:
-#    RELEASE_STORE_FILE=/caminho/para/release.keystore
-#    RELEASE_STORE_PASSWORD=...
-#    RELEASE_KEY_ALIAS=aikeyboard
-#    RELEASE_KEY_PASSWORD=...
+# Add to ~/.gradle/gradle.properties:
+#   RELEASE_STORE_FILE / RELEASE_STORE_PASSWORD / RELEASE_KEY_ALIAS / RELEASE_KEY_PASSWORD
 
-# 3. Build assinado
 ./gradlew assembleRelease
 ```
 
-## Próximos passos (roadmap)
+## Roadmap
 
-- [x] Tema claro / escuro / seguir o sistema
-- [x] Feedback tátil + key-preview + som ao digitar
-- [x] Digitação por gesto (swipe)
-- [x] Números por toque-longo na fileira superior
-- [x] Caminho de digitação sem IPC (espelho de cursor + `onUpdateSelection`)
-- [x] Correção consciente do tipo de campo e à prova de gírias/risadas
-- [x] Atalho de dois espaços para ponto final
-- [x] Digitação instantânea (caractere no toque/ACTION_DOWN, não ao soltar)
-- [x] Multitoque (digitar veloz com dois polegares sem perder teclas)
-- [x] Gesto à prova de falso-positivo (só vira swipe com 3+ teclas)
-- [ ] Decodificação de swipe com pontuação geométrica (curvatura/velocidade)
-- [ ] Ações de IA customizáveis (criar prompts próprios)
-- [ ] Testes instrumentados do IME
+A short selection — see [ROADMAP.md](ROADMAP.md) for the full plan.
 
-## Licença
+- [x] Local PT-BR autocorrection with slang-safe, field-aware behavior
+- [x] On-demand AI actions (correct / rewrite / summarize / WhatsApp / translate)
+- [x] Groq + Gemini provider chain with encrypted key storage for user keys
+- [x] 88 JVM unit tests for core logic
+- [ ] Remove default-key injection from public builds
+- [ ] Instrumented IME tests
+- [ ] CI on every PR
+- [ ] Custom AI prompt actions
+- [ ] Accessibility review
 
-MIT
+## Contributing
+
+Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). Good first areas: PT-BR lexicon coverage, device testing, accessibility, tests, and documentation. Please never commit secrets, API keys, build files, or local environment files.
+
+## Open-source goals
+
+AI Keyboard is open-source because keyboard software handles highly sensitive user input. The goal is a community-maintained Android keyboard that combines local-first typing assistance, privacy-first design, and optional AI actions fully controlled by the user — auditable and adaptable for Brazilian Portuguese.
+
+## Screenshots
+
+> Screenshots will be added under [`docs/screenshots/`](docs/screenshots/) (keyboard, settings, AI actions, correction, translation). Contributions of clean, secret-free screenshots are welcome.
+
+## License
+
+Released under the [MIT License](LICENSE).

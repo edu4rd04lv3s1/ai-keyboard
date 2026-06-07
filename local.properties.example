@@ -1,0 +1,15 @@
+# Copy this file to local.properties and fill in your own values.
+# NEVER commit local.properties — it is git-ignored on purpose.
+
+# Path to your Android SDK (Android Studio usually writes this automatically).
+# Example (macOS Homebrew): /opt/homebrew/share/android-commandlinetools
+# Example (default):        /Users/<you>/Library/Android/sdk
+sdk.dir=/path/to/your/Android/sdk
+
+# Optional default API keys for LOCAL/personal builds only.
+# WARNING: these get compiled into BuildConfig and embedded in the APK in cleartext.
+# Leave them empty for any build you plan to distribute, and prefer entering your key
+# inside the app at runtime (it is stored with EncryptedSharedPreferences).
+groq.api.key=YOUR_GROQ_API_KEY_HERE
+gemini.api.key.primary=YOUR_GEMINI_API_KEY_HERE
+gemini.api.key.secondary=YOUR_SECONDARY_GEMINI_API_KEY_HERE

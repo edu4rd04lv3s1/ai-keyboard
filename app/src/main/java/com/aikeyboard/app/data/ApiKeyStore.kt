@@ -4,13 +4,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.aikeyboard.app.BuildConfig
 
 /**
- * Armazena a Groq API key criptografada no dispositivo via EncryptedSharedPreferences.
- * Se nenhuma key foi configurada pelo usuário, cai para a key padrão embutida no build
- * pessoal (definida em local.properties).
- * Nenhum dado sai do aparelho exceto quando o usuário invoca "Corrigir com IA".
+ * Armazena as API keys (Groq/Gemini) criptografadas no dispositivo via
+ * EncryptedSharedPreferences. As chaves só existem se o usuário as configurar
+ * dentro do app — nenhuma chave é embutida no APK.
+ * Nenhum dado sai do aparelho exceto quando o usuário invoca uma ação de IA.
  */
 class ApiKeyStore(context: Context) {
 
@@ -30,14 +29,11 @@ class ApiKeyStore(context: Context) {
 
     // -------- Groq --------
 
-    /** Retorna a key Groq salva pelo usuário; se não houver, usa a padrão do build. */
-    fun getApiKey(): String? {
-        val saved = prefs.getString(KEY_GROQ, null)?.takeIf { it.isNotBlank() }
-        if (saved != null) return saved
-        return BuildConfig.GROQ_DEFAULT_API_KEY.takeIf { it.isNotBlank() }
-    }
+    /** Retorna a key Groq salva pelo usuário, ou null se nenhuma foi configurada. */
+    fun getApiKey(): String? =
+        prefs.getString(KEY_GROQ, null)?.takeIf { it.isNotBlank() }
 
-    /** Indica se a key Groq ativa veio do usuário (e não da padrão embutida). */
+    /** Indica se o usuário configurou uma key Groq. */
     fun hasUserKey(): Boolean =
         prefs.getString(KEY_GROQ, null)?.isNotBlank() == true
 
@@ -53,12 +49,9 @@ class ApiKeyStore(context: Context) {
 
     // -------- Gemini --------
 
-    /** Retorna a key Gemini salva pelo usuário; se não houver, usa a padrão do build. */
-    fun getGeminiApiKey(): String? {
-        val saved = prefs.getString(KEY_GEMINI, null)?.takeIf { it.isNotBlank() }
-        if (saved != null) return saved
-        return BuildConfig.GEMINI_DEFAULT_API_KEY.takeIf { it.isNotBlank() }
-    }
+    /** Retorna a key Gemini salva pelo usuário, ou null se nenhuma foi configurada. */
+    fun getGeminiApiKey(): String? =
+        prefs.getString(KEY_GEMINI, null)?.takeIf { it.isNotBlank() }
 
     fun hasUserGeminiKey(): Boolean =
         prefs.getString(KEY_GEMINI, null)?.isNotBlank() == true
@@ -73,11 +66,8 @@ class ApiKeyStore(context: Context) {
 
     fun maskedGeminiPreview(): String? = getGeminiApiKey()?.let(::mask)
 
-    fun getGeminiSecondaryApiKey(): String? {
-        val saved = prefs.getString(KEY_GEMINI_SECONDARY, null)?.takeIf { it.isNotBlank() }
-        if (saved != null) return saved
-        return BuildConfig.GEMINI_SECONDARY_DEFAULT_API_KEY.takeIf { it.isNotBlank() }
-    }
+    fun getGeminiSecondaryApiKey(): String? =
+        prefs.getString(KEY_GEMINI_SECONDARY, null)?.takeIf { it.isNotBlank() }
 
     fun setGeminiSecondaryApiKey(key: String) {
         prefs.edit().putString(KEY_GEMINI_SECONDARY, key.trim()).apply()

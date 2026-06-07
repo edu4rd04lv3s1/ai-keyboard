@@ -105,7 +105,7 @@ The project is also a useful reference for developers who want to study Android 
 - **Android Studio** (latest stable) with the Android SDK (compileSdk 35 / Build-Tools 35).
 - **JDK 17** (the Gradle build targets JVM 17).
 
-### 1. Clone and configure keys
+### 1. Clone and configure the SDK path
 
 ```bash
 git clone <your-fork-url> ai-keyboard
@@ -113,9 +113,9 @@ cd ai-keyboard
 cp local.properties.example local.properties
 ```
 
-Edit `local.properties` and set `sdk.dir` plus your own API keys. **`local.properties` is git-ignored and must never be committed.**
+Edit `local.properties` and set `sdk.dir` to your Android SDK path. **`local.properties` is git-ignored and must never be committed.** You do **not** put API keys here.
 
-> **Note on keys & distribution.** For local development the build can read default keys from `local.properties` and expose them via `BuildConfig`. This is **for personal builds only** — any APK built this way embeds those keys in cleartext. Leave the key fields empty (or remove the `buildConfigField` injection in `app/build.gradle.kts`) before distributing a build. See [SECURITY.md](SECURITY.md).
+> **API keys.** The build does **not** embed any API key. Each user adds their own Groq (and optional Gemini) key **inside the app** at runtime, where it is stored encrypted with `EncryptedSharedPreferences`. See [SECURITY.md](SECURITY.md).
 
 ### 2. Build
 
@@ -146,8 +146,8 @@ AI Keyboard contains **no analytics, tracking, advertising SDKs, or telemetry**.
 
 - Local autocorrection and suggestions run entirely on-device and never touch the network.
 - AI requests are made **only** when you explicitly tap an AI action, sent over HTTPS directly to the configured provider.
-- **User-provided API keys** are stored locally with `EncryptedSharedPreferences` (AES-256-GCM via AndroidX Security / Keystore).
-- **Disclosure:** default/bundled keys injected at build time from `local.properties` are compiled into the APK via `BuildConfig` and are **not** encrypted at rest. This path exists only for personal builds and should be removed before public distribution.
+- **API keys are provided by each user** inside the app and stored locally with `EncryptedSharedPreferences` (AES-256-GCM via AndroidX Security / Keystore).
+- **No keys are embedded in the build.** The APK ships without any default or bundled API key — there is nothing to extract by decompiling it.
 
 Full policy and reporting instructions: [SECURITY.md](SECURITY.md).
 
@@ -172,7 +172,7 @@ A short selection — see [ROADMAP.md](ROADMAP.md) for the full plan.
 - [x] On-demand AI actions (correct / rewrite / summarize / WhatsApp / translate)
 - [x] Groq + Gemini provider chain with encrypted key storage for user keys
 - [x] 88 JVM unit tests for core logic
-- [ ] Remove default-key injection from public builds
+- [x] No API keys embedded in the build (user-provided keys only)
 - [ ] Instrumented IME tests
 - [ ] CI on every PR
 - [ ] Custom AI prompt actions

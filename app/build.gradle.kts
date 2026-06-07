@@ -1,6 +1,3 @@
-import java.io.FileInputStream
-import java.util.Properties
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -8,15 +5,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-// Para este build pessoal, permite embutir chaves padrão vindas de local.properties.
-// Se o app for distribuído publicamente no futuro, este mecanismo deve ser removido.
-val localProps = Properties().apply {
-    val f = rootProject.file("local.properties")
-    if (f.exists()) FileInputStream(f).use { load(it) }
-}
-val defaultGroqKey: String = localProps.getProperty("groq.api.key", "")
-val defaultGeminiKey: String = localProps.getProperty("gemini.api.key.primary", "")
-val defaultGeminiSecondaryKey: String = localProps.getProperty("gemini.api.key.secondary", "")
+// No API keys are embedded in the build. Users provide their own key inside the app at
+// runtime; it is stored encrypted via EncryptedSharedPreferences (see ApiKeyStore).
 
 android {
     namespace = "com.aikeyboard.app"
@@ -31,10 +21,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
-
-        buildConfigField("String", "GROQ_DEFAULT_API_KEY", "\"$defaultGroqKey\"")
-        buildConfigField("String", "GEMINI_DEFAULT_API_KEY", "\"$defaultGeminiKey\"")
-        buildConfigField("String", "GEMINI_SECONDARY_DEFAULT_API_KEY", "\"$defaultGeminiSecondaryKey\"")
     }
 
     buildTypes {

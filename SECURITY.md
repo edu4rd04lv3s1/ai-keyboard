@@ -31,27 +31,23 @@ AI Keyboard aims to follow these principles:
 - Local-first behavior whenever possible
 - Transparent provider configuration
 
-## How API keys are handled (be aware)
+## How API keys are handled
 
-There are **two** key paths, and they have different security properties:
+API keys are entered by each user **inside the app** and stored with
+`EncryptedSharedPreferences` (AES-256-GCM, AndroidX Security / Android Keystore) in
+`data/ApiKeyStore.kt`. They are encrypted at rest on the device.
 
-1. **User-entered keys (encrypted).** Keys a user types into the app are stored with
-   `EncryptedSharedPreferences` (AES-256-GCM, AndroidX Security / Android Keystore) in
-   `data/ApiKeyStore.kt`. This is encrypted at rest on the device.
-
-2. **Build-time default keys (NOT encrypted).** `app/build.gradle.kts` can read
-   `groq.api.key`, `gemini.api.key.primary`, and `gemini.api.key.secondary` from the
-   git-ignored `local.properties` and bake them into `BuildConfig` fields. **Any APK built
-   this way contains those keys in cleartext** and they are recoverable by decompiling the
-   binary. This path exists only for convenience in personal/local builds.
+**The build does not embed any API key.** Earlier versions could inject default keys from
+`local.properties` into `BuildConfig`; that mechanism has been **removed**, so no APK ships
+with a bundled key and there is nothing to extract by decompiling the binary. The app simply
+requires the user to configure their own key before any AI action can run.
 
 **Recommendations:**
 
-- Keep `local.properties` git-ignored (it already is). Never `git add -f` it.
-- Leave the default-key fields empty — or remove the `buildConfigField` injection in
-  `app/build.gradle.kts` — before building any APK you intend to share or release.
-- If a key has ever been shared inside a built APK, **rotate it** in the provider console
-  (Groq / Google AI Studio) and issue a new one.
+- Keep `local.properties` git-ignored (it already is). Never `git add -f` it, and never put
+  real secrets in `local.properties` or `local.properties.example`.
+- If a key was ever shared inside a previously built APK, **rotate it** in the provider
+  console (Groq / Google AI Studio) and issue a new one.
 
 ## Git history
 

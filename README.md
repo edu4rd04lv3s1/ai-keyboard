@@ -64,19 +64,17 @@ The repository cover lives at [`docs/assets/repository-cover.png`](docs/assets/r
 | Screen | File (add under `docs/screenshots/`) | Status |
 |--------|--------------------------------------|--------|
 | Keyboard with suggestion bar | `keyboard-main.png` | _planned_ |
-| AI action bar | `ai-actions.png` | _planned_ |
+| On-demand AI action bar | `ai-actions.png` | _planned_ |
 | Settings / setup screen | `settings.png` | _planned_ |
-| Local autocorrection in action | `correction.png` | _planned_ |
-| EN/PT-BR translation | `translation.png` | _planned_ |
+| Privacy-related settings | `privacy-settings.png` | _planned_ |
 
-> Screenshots are not committed yet (this is an alpha and screenshots must be captured on a device/emulator and verified to contain no personal data or API keys). To add them, drop the PNGs into `docs/screenshots/` and uncomment the block below.
+> Screenshots are not committed yet (this is an alpha and screenshots must be captured on a device/emulator and verified to contain no personal data or API keys). To add them, drop the PNGs into `docs/screenshots/` and uncomment the block below. See [docs/social-preview.md](docs/social-preview.md) for the full checklist.
 
 <!-- Once the PNGs exist, uncomment to display them:
 ![Keyboard with suggestion bar](docs/screenshots/keyboard-main.png)
-![AI action bar](docs/screenshots/ai-actions.png)
+![On-demand AI action bar](docs/screenshots/ai-actions.png)
 ![Settings / setup screen](docs/screenshots/settings.png)
-![Local autocorrection](docs/screenshots/correction.png)
-![EN/PT-BR translation](docs/screenshots/translation.png)
+![Privacy-related settings](docs/screenshots/privacy-settings.png)
 -->
 
 ## Architecture

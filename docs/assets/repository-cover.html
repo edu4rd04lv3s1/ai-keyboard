@@ -1,0 +1,94 @@
+<!doctype html>
+<!--
+  Source for docs/assets/repository-cover.png (the repo cover / social preview).
+  Regenerate with headless Chrome:
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+      --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=2 \
+      --window-size=1280,640 --user-data-dir=/tmp/chrome-cover \
+      --screenshot=docs/assets/repository-cover.png \
+      "file://$PWD/docs/assets/repository-cover.html"
+    sips -z 640 1280 docs/assets/repository-cover.png
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 1280px; height: 640px; overflow: hidden;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    color: #f5f7ff;
+  }
+  .stage {
+    position: relative; width: 1280px; height: 640px;
+    background:
+      radial-gradient(900px 600px at 88% -10%, rgba(127, 82, 255, 0.45), transparent 60%),
+      radial-gradient(800px 600px at 0% 110%, rgba(61, 220, 132, 0.30), transparent 55%),
+      linear-gradient(135deg, #0b0d1a 0%, #141833 55%, #0b0d1a 100%);
+    padding: 72px 80px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .kicker {
+    font-size: 22px; font-weight: 700; letter-spacing: 6px;
+    color: #9fb0ff; text-transform: uppercase; margin-bottom: 22px;
+  }
+  h1 {
+    font-size: 132px; font-weight: 800; letter-spacing: -3px; line-height: 0.96;
+  }
+  h1 .ai {
+    background: linear-gradient(90deg, #7f52ff 0%, #b69bff 60%, #3ddc84 120%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .tagline {
+    font-size: 34px; font-weight: 500; color: #c7cfee; margin-top: 26px; max-width: 940px;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 40px; }
+  .chip {
+    font-size: 22px; font-weight: 600; color: #e7ecff;
+    border: 1px solid rgba(159, 176, 255, 0.45);
+    background: rgba(127, 82, 255, 0.12);
+    border-radius: 999px; padding: 12px 22px;
+  }
+  .chip.green { border-color: rgba(61, 220, 132, 0.55); background: rgba(61, 220, 132, 0.12); }
+  .foot {
+    position: absolute; left: 80px; bottom: 44px;
+    font-size: 22px; color: #8893bf; font-weight: 600; letter-spacing: 0.5px;
+  }
+  .badge {
+    position: absolute; right: 80px; bottom: 44px;
+    font-size: 22px; color: #8893bf; font-weight: 600;
+  }
+  .keys { position: absolute; right: 70px; top: 70px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; opacity: 0.9; }
+  .key {
+    width: 74px; height: 74px; border-radius: 16px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03));
+    border: 1px solid rgba(159, 176, 255, 0.30);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px; font-weight: 700; color: #cdd6ff;
+  }
+  .key.accent { background: linear-gradient(180deg, rgba(127,82,255,0.45), rgba(127,82,255,0.18)); color: #fff; }
+  .key.go { background: linear-gradient(180deg, rgba(61,220,132,0.45), rgba(61,220,132,0.18)); color: #eafff3; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="keys">
+      <div class="key">A</div><div class="key">B</div><div class="key">C</div><div class="key accent">✦</div>
+      <div class="key">ç</div><div class="key">ã</div><div class="key">õ</div><div class="key">é</div>
+      <div class="key">v</div><div class="key">c</div><div class="key">🎤</div><div class="key go">✓</div>
+    </div>
+    <div class="kicker">Open Source · Android · MIT</div>
+    <h1><span class="ai">AI</span> Keyboard</h1>
+    <div class="tagline">Privacy-first Android AI keyboard for Brazilian Portuguese — local autocorrection and on-demand AI writing.</div>
+    <div class="chips">
+      <div class="chip green">On-device autocorrect</div>
+      <div class="chip">No telemetry</div>
+      <div class="chip">No embedded API keys</div>
+      <div class="chip green">AI only on demand</div>
+      <div class="chip">Kotlin · InputMethodService</div>
+    </div>
+    <div class="foot">github.com/Edward1611/ai-keyboard</div>
+    <div class="badge">alpha · PT-BR</div>
+  </div>
+</body>
+</html>

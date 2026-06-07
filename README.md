@@ -1,5 +1,6 @@
 # AI Keyboard
 
+[![Android Tests](https://github.com/Edward1611/ai-keyboard/actions/workflows/android-tests.yml/badge.svg)](https://github.com/Edward1611/ai-keyboard/actions/workflows/android-tests.yml)
 ![Platform](https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white)
 ![Language](https://img.shields.io/badge/Kotlin-2.0.21-7F52FF?logo=kotlin&logoColor=white)
 ![Min SDK](https://img.shields.io/badge/minSdk-26-blue)

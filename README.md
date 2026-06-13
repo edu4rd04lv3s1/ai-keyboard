@@ -3,7 +3,7 @@
 
 # AI Keyboard
 
-[![Android Tests](https://github.com/Edward1611/ai-keyboard/actions/workflows/android-tests.yml/badge.svg)](https://github.com/Edward1611/ai-keyboard/actions/workflows/android-tests.yml)
+[![Android Tests](https://github.com/edu4rd04lv3s1/ai-keyboard/actions/workflows/android-tests.yml/badge.svg)](https://github.com/edu4rd04lv3s1/ai-keyboard/actions/workflows/android-tests.yml)
 ![Platform](https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white)
 ![Language](https://img.shields.io/badge/Kotlin-2.0.21-7F52FF?logo=kotlin&logoColor=white)
 ![Min SDK](https://img.shields.io/badge/minSdk-26-blue)
@@ -144,7 +144,7 @@ app/src/test/java/com/aikeyboard/app/  # 88 JVM unit tests (8 files)
 ### 1. Clone and configure the SDK path
 
 ```bash
-git clone https://github.com/Edward1611/ai-keyboard.git
+git clone https://github.com/edu4rd04lv3s1/ai-keyboard.git
 cd ai-keyboard
 cp local.properties.example local.properties
 ```
@@ -220,4 +220,4 @@ AI Keyboard is exactly the kind of project where AI-assisted maintenance pays of
 - **Improving documentation, onboarding, and contributor workflows**, and automating pull-request review.
 - **Adding latency/performance benchmarks** to guard the keyboard's responsiveness.
 
-The project is in **alpha**, but it already has a real, working foundation: an `InputMethodService` keyboard, on-device PT-BR correction, on-demand AI actions, encrypted user-key storage, **88 unit tests**, green CI, and a tagged release. That foundation is what makes focused AI-assisted contributions immediately useful. See [docs/codex-application.md](docs/codex-application.md) for the full application notes.
+The project is in **alpha**, but it already has a real, working foundation: an `InputMethodService` keyboard, on-device PT-BR correction, on-demand AI actions, encrypted user-key storage, **88 unit tests**, green CI, and a tagged `v1.1.1-alpha` release. That foundation is what makes focused AI-assisted contributions immediately useful. See [docs/codex-application.md](docs/codex-application.md) for the full application notes.

@@ -17,7 +17,7 @@ It's a practical codebase for anyone studying Android IME behavior, Kotlin, loca
 
 Status: **alpha** — it works and is unit-tested (88 tests, CI green), but still needs device testing, accessibility work, and polish. **Feedback and contributions are very welcome.**
 
-👉 https://github.com/Edward1611/ai-keyboard
+👉 https://github.com/edu4rd04lv3s1/ai-keyboard
 
 ---
 
@@ -31,7 +31,7 @@ A keyboard can see everything you type, so I think this is exactly the kind of s
 
 It's still in **alpha** — working and unit-tested, but not production-ready yet. I'm sharing it early because feedback and contributions will shape where it goes.
 
-Repository (MIT): https://github.com/Edward1611/ai-keyboard
+Repository (MIT): https://github.com/edu4rd04lv3s1/ai-keyboard
 
 #OpenSource #Android #Kotlin #Privacy #AI
 
@@ -46,7 +46,7 @@ AI Keyboard — an open-source Android keyboard for Brazilian Portuguese 🇧�
 • AI actions only when you tap them
 
 Alpha, open to feedback & contributions 👇
-https://github.com/Edward1611/ai-keyboard
+https://github.com/edu4rd04lv3s1/ai-keyboard
 
 #OpenSource #Android #Kotlin
 
@@ -54,4 +54,4 @@ https://github.com/Edward1611/ai-keyboard
 
 ## D) Direct message
 
-Hey! I'm building an open-source Android keyboard for Brazilian Portuguese — local autocorrection, privacy-first (no analytics/telemetry, no embedded API keys), with optional AI actions that only run when you ask. It's still alpha, but working and tested. Would love your feedback if you have a minute: https://github.com/Edward1611/ai-keyboard
+Hey! I'm building an open-source Android keyboard for Brazilian Portuguese — local autocorrection, privacy-first (no analytics/telemetry, no embedded API keys), with optional AI actions that only run when you ask. It's still alpha, but working and tested. Would love your feedback if you have a minute: https://github.com/edu4rd04lv3s1/ai-keyboard

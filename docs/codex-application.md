@@ -5,10 +5,10 @@
 > [codex-application-final.md](codex-application-final.md).
 
 - **Project name:** AI Keyboard
-- **Repository:** https://github.com/Edward1611/ai-keyboard
+- **Repository:** https://github.com/edu4rd04lv3s1/ai-keyboard
 - **License:** MIT
 - **Language / platform:** Kotlin, Android (`InputMethodService`)
-- **Status:** alpha (working foundation: 88 unit tests, green CI, v0.1.0-alpha release)
+- **Status:** alpha (working foundation: 88 unit tests, green CI, v1.1.1-alpha release)
 
 ## What AI Keyboard is
 

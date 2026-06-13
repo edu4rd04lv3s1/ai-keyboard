@@ -32,7 +32,7 @@ Suggested **topics** (already applied to the repo): `android`, `kotlin`, `keyboa
 The social preview image can only be uploaded through the GitHub web UI (not the API),
 so this step is manual:
 
-- [ ] Open the repository on GitHub: https://github.com/Edward1611/ai-keyboard
+- [ ] Open the repository on GitHub: https://github.com/edu4rd04lv3s1/ai-keyboard
 - [ ] Go to **Settings**.
 - [ ] Scroll to **Social preview**.
 - [ ] Upload **`docs/assets/repository-cover.png`**.

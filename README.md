@@ -40,7 +40,7 @@ This repository is prepared for public collaboration and AI-assisted maintenance
 - **Tests:** 88 unit tests cover core typing, field policy, AI transformation, and output validation logic.
 - **Security:** [SECURITY.md](SECURITY.md) documents vulnerability reporting, key handling, and network expectations.
 - **Maintainer workflow:** [AGENTS.md](AGENTS.md) gives Codex and other coding agents project-specific safety rules.
-- **Roadmap:** [ROADMAP.md](ROADMAP.md) tracks alpha gaps such as screenshots, instrumented IME tests, accessibility review, and performance benchmarks.
+- **Roadmap:** [ROADMAP.md](ROADMAP.md) tracks alpha gaps such as a short demo, instrumented IME tests, accessibility review, and performance benchmarks.
 
 ## Key features
 
@@ -69,25 +69,17 @@ Full policy and reporting instructions: [SECURITY.md](SECURITY.md).
 
 ## Screenshots
 
-The repository cover lives at [`docs/assets/repository-cover.png`](docs/assets/repository-cover.png). App screenshots will be added under [`docs/screenshots/`](docs/screenshots/).
+The repository cover lives at [`docs/assets/repository-cover.png`](docs/assets/repository-cover.png). The app screenshots below were captured from a clean Android emulator using sample text only, with no personal data and no API keys.
 
-| Screen | File (add under `docs/screenshots/`) | Status |
-|--------|--------------------------------------|--------|
-| Keyboard with suggestion bar | `keyboard-main.png` | _planned_ |
-| On-demand AI action bar | `ai-actions.png` | _planned_ |
-| Settings / setup screen | `settings.png` | _planned_ |
-| Privacy-related settings | `privacy-settings.png` | _planned_ |
+| Settings / setup | Keyboard with AI actions |
+|------------------|--------------------------|
+| <img src="docs/screenshots/settings.png" alt="AI Keyboard setup screen" width="260"> | <img src="docs/screenshots/keyboard-main.png" alt="AI Keyboard open with suggestion and AI action bars" width="260"> |
 
-> Screenshots are not committed yet (this is an alpha and screenshots must be captured on a device/emulator and verified to contain no personal data or API keys). To add them, drop the PNGs into `docs/screenshots/` and uncomment the block below. See [docs/social-preview.md](docs/social-preview.md) for the full checklist.
+| On-demand AI action bar | Privacy-related settings |
+|-------------------------|--------------------------|
+| <img src="docs/screenshots/ai-actions.png" alt="AI Keyboard on-demand AI action chips" width="260"> | <img src="docs/screenshots/privacy-settings.png" alt="AI Keyboard API key settings with local privacy explanation" width="260"> |
 
 See [`docs/screenshots/README.md`](docs/screenshots/README.md) for the screenshot and demo checklist.
-
-<!-- Once the PNGs exist, uncomment to display them:
-![Keyboard with suggestion bar](docs/screenshots/keyboard-main.png)
-![On-demand AI action bar](docs/screenshots/ai-actions.png)
-![Settings / setup screen](docs/screenshots/settings.png)
-![Privacy-related settings](docs/screenshots/privacy-settings.png)
--->
 
 ## Architecture
 
@@ -207,7 +199,8 @@ A short selection — see [ROADMAP.md](ROADMAP.md) for the full plan.
 - [x] No API keys embedded in the build (user-provided keys only)
 - [x] Public security policy, contribution guide, release notes, and agent instructions
 - [ ] Instrumented IME tests ([#2](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/2))
-- [ ] App screenshots and demo ([#1](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/1))
+- [x] Verified app screenshots captured on emulator
+- [ ] Short demo video ([#1](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/1))
 - [ ] Custom AI prompt actions
 - [ ] Accessibility review ([#4](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/4))
 - [ ] Security review ([#3](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/3))

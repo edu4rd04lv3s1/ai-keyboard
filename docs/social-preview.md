@@ -1,8 +1,8 @@
 # Social preview & public presentation
 
 Reference for presenting the repository publicly (GitHub social preview, About field,
-short pitch) and for adding real screenshots later. Nothing here invents features —
-it describes the project as it exists today.
+short pitch, and verified screenshots). Nothing here invents features — it describes
+the project as it exists today.
 
 ## Repository social preview
 
@@ -32,27 +32,25 @@ Suggested **topics** (already applied to the repo): `android`, `kotlin`, `keyboa
 The social preview image can only be uploaded through the GitHub web UI (not the API),
 so this step is manual:
 
-- [ ] Open the repository on GitHub: https://github.com/edu4rd04lv3s1/ai-keyboard
-- [ ] Go to **Settings**.
-- [ ] Scroll to **Social preview**.
-- [ ] Upload **`docs/assets/repository-cover.png`**.
-- [ ] Save changes.
-- [ ] (Optional) Confirm the **About** sidebar shows the short description and topics above.
+- [x] Open the repository on GitHub: https://github.com/edu4rd04lv3s1/ai-keyboard
+- [x] Go to **Settings**.
+- [x] Scroll to **Social preview**.
+- [x] Upload **`docs/assets/repository-cover.png`**.
+- [x] Save changes.
+- [x] Confirm the **About** sidebar shows the short description and topics above.
 
-## Screenshots — what to add later
+## Screenshots
 
-Add **real** screenshots (captured on a device/emulator) under `docs/screenshots/`:
+Real screenshots are stored under `docs/screenshots/`:
 
-- [ ] `docs/screenshots/keyboard-main.png` — keyboard open with the suggestion bar
-- [ ] `docs/screenshots/ai-actions.png` — the on-demand AI action bar
-- [ ] `docs/screenshots/settings.png` — settings / setup screen
-- [ ] `docs/screenshots/privacy-settings.png` — privacy-related settings
+- [x] `docs/screenshots/keyboard-main.png` — keyboard open with the suggestion bar
+- [x] `docs/screenshots/ai-actions.png` — the on-demand AI action bar
+- [x] `docs/screenshots/settings.png` — settings / setup screen
+- [x] `docs/screenshots/privacy-settings.png` — privacy-related settings
 
 ### Rules for screenshots
 
 - Use **real screenshots only**. Do not use mockups unless clearly labeled as mockups.
 - Make sure each image contains **no personal data and no API keys** before committing.
 - Follow the checklist in [`docs/screenshots/README.md`](screenshots/README.md).
-- After adding the real screenshots:
-  1. Update the **Screenshots** section in [`README.md`](../README.md).
-  2. Uncomment the image block there (it is ready to enable) and remove the placeholder note.
+- Update screenshots whenever the UI changes significantly.

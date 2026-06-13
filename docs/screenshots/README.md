@@ -5,12 +5,16 @@ This folder is reserved for verified app screenshots.
 Screenshots should be captured from a clean emulator or device after checking that the
 image contains no private messages, no personal data, no API keys, and no account details.
 
-## Planned captures
+## Captured screenshots
 
-- `keyboard-main.png` - keyboard open with suggestion bar.
+- `keyboard-main.png` - keyboard open with suggestion and AI action bars.
 - `ai-actions.png` - on-demand AI action bar.
 - `settings.png` - setup/settings screen.
 - `privacy-settings.png` - privacy/API-key related settings.
+
+Current screenshots were captured from a clean Android emulator using the debug build
+and sample text only. They do not contain personal data, account details, real
+messages, or API keys.
 
 ## Capture rules
 

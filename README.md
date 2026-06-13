@@ -32,6 +32,16 @@ A keyboard sees **everything** a person types, so it is exactly the kind of soft
 
 The long-term goal is a **community-maintained** Android keyboard that combines local-first typing assistance, privacy-first design, and optional AI actions fully controlled by the user.
 
+## Public maintenance status
+
+This repository is prepared for public collaboration and AI-assisted maintenance:
+
+- **CI:** GitHub Actions runs the JVM test suite on every push and pull request.
+- **Tests:** 88 unit tests cover core typing, field policy, AI transformation, and output validation logic.
+- **Security:** [SECURITY.md](SECURITY.md) documents vulnerability reporting, key handling, and network expectations.
+- **Maintainer workflow:** [AGENTS.md](AGENTS.md) gives Codex and other coding agents project-specific safety rules.
+- **Roadmap:** [ROADMAP.md](ROADMAP.md) tracks alpha gaps such as screenshots, instrumented IME tests, accessibility review, and performance benchmarks.
+
 ## Key features
 
 - **QWERTY IME** (Portuguese + English) declared as an `InputMethodService`, rendered on a `Canvas` for minimal latency.
@@ -69,6 +79,8 @@ The repository cover lives at [`docs/assets/repository-cover.png`](docs/assets/r
 | Privacy-related settings | `privacy-settings.png` | _planned_ |
 
 > Screenshots are not committed yet (this is an alpha and screenshots must be captured on a device/emulator and verified to contain no personal data or API keys). To add them, drop the PNGs into `docs/screenshots/` and uncomment the block below. See [docs/social-preview.md](docs/social-preview.md) for the full checklist.
+
+See [`docs/screenshots/README.md`](docs/screenshots/README.md) for the screenshot and demo checklist.
 
 <!-- Once the PNGs exist, uncomment to display them:
 ![Keyboard with suggestion bar](docs/screenshots/keyboard-main.png)
@@ -193,6 +205,7 @@ A short selection — see [ROADMAP.md](ROADMAP.md) for the full plan.
 - [x] Groq + Gemini provider chain with encrypted key storage for user keys
 - [x] 88 JVM unit tests for core logic + CI on every push/PR
 - [x] No API keys embedded in the build (user-provided keys only)
+- [x] Public security policy, contribution guide, release notes, and agent instructions
 - [ ] Instrumented IME tests
 - [ ] App screenshots and demo
 - [ ] Custom AI prompt actions

@@ -29,3 +29,6 @@ Describe what you expected to happen.
 ## Additional context
 
 Add screenshots or logs if possible. **Do not include API keys or other secrets.**
+
+If this is a security vulnerability, do not open a public issue. Use GitHub Security
+Advisories instead.

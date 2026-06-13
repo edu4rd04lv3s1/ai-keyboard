@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/edu4rd04lv3s1/ai-keyboard/security/advisories/new
+    about: Please report vulnerabilities privately through GitHub Security Advisories.

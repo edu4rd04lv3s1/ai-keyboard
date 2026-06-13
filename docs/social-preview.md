@@ -52,6 +52,7 @@ Add **real** screenshots (captured on a device/emulator) under `docs/screenshots
 
 - Use **real screenshots only**. Do not use mockups unless clearly labeled as mockups.
 - Make sure each image contains **no personal data and no API keys** before committing.
+- Follow the checklist in [`docs/screenshots/README.md`](screenshots/README.md).
 - After adding the real screenshots:
   1. Update the **Screenshots** section in [`README.md`](../README.md).
   2. Uncomment the image block there (it is ready to enable) and remove the placeholder note.

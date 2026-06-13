@@ -13,31 +13,33 @@ AI Keyboard is currently in **alpha**. The goal is to become a reliable, privacy
 - [x] `EncryptedSharedPreferences` storage for user-entered keys
 - [x] Voice dictation via native `SpeechRecognizer`
 - [x] 88 JVM unit tests for core logic
+- [x] No API keys embedded in public builds
+- [x] GitHub Actions CI for `./gradlew test`
+- [x] GitHub issue and pull request templates
+- [x] Public contribution guide, security policy, release notes, and Codex/agent instructions
 
 ## Short term
 
-- [ ] Remove default-key (`BuildConfig`) injection from public builds so keys are never baked into the APK
-- [ ] Add GitHub Actions CI to run `./gradlew test` on every PR and push to `main`
-- [ ] Add screenshots to the README
-- [ ] Add GitHub issue and pull request templates
-- [ ] Document `local.properties` key setup for contributors
+- [ ] Add verified app screenshots to the README
+- [ ] Record a short emulator/device demo
 - [ ] Add an accessibility checklist
+- [ ] Add instrumented tests for `InputMethodService` / `InputConnection` behavior
+- [ ] Run a focused security review of InputConnection handling, network boundaries, dependency risk, and API-key storage
+- [ ] Add latency/performance benchmarks for typing responsiveness
 
 ## Medium term
 
-- [ ] Add instrumented tests for `InputMethodService` behavior
 - [ ] Improve PT-BR lexicon coverage
 - [ ] Improve autocorrection quality and add an offline correction mode
 - [ ] Custom prompt actions (user-defined AI prompts)
 - [ ] Stronger AI output validation
 - [ ] Better error handling and messaging for AI providers
-- [ ] Benchmark tests for keyboard latency
 - [ ] Keyboard UI and typing-experience refinement
+- [ ] Plugin-style provider architecture for more AI providers
 
 ## Long term
 
 - [ ] Community-maintained PT-BR writing dataset
-- [ ] Plugin-style provider architecture for more AI providers
 - [ ] Public performance benchmarks
 - [ ] Better support for slang, abbreviations, and informal Brazilian Portuguese
 - [ ] Stable releases for public testing

@@ -206,10 +206,12 @@ A short selection — see [ROADMAP.md](ROADMAP.md) for the full plan.
 - [x] 88 JVM unit tests for core logic + CI on every push/PR
 - [x] No API keys embedded in the build (user-provided keys only)
 - [x] Public security policy, contribution guide, release notes, and agent instructions
-- [ ] Instrumented IME tests
-- [ ] App screenshots and demo
+- [ ] Instrumented IME tests ([#2](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/2))
+- [ ] App screenshots and demo ([#1](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/1))
 - [ ] Custom AI prompt actions
-- [ ] Accessibility review
+- [ ] Accessibility review ([#4](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/4))
+- [ ] Security review ([#3](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/3))
+- [ ] Performance benchmarks ([#6](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/6))
 
 ## Contributing
 

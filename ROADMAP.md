@@ -20,12 +20,12 @@ AI Keyboard is currently in **alpha**. The goal is to become a reliable, privacy
 
 ## Short term
 
-- [ ] Add verified app screenshots to the README
-- [ ] Record a short emulator/device demo
-- [ ] Add an accessibility checklist
-- [ ] Add instrumented tests for `InputMethodService` / `InputConnection` behavior
-- [ ] Run a focused security review of InputConnection handling, network boundaries, dependency risk, and API-key storage
-- [ ] Add latency/performance benchmarks for typing responsiveness
+- [ ] Add verified app screenshots to the README ([#1](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/1))
+- [ ] Record a short emulator/device demo ([#1](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/1))
+- [ ] Add an accessibility checklist ([#4](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/4))
+- [ ] Add instrumented tests for `InputMethodService` / `InputConnection` behavior ([#2](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/2))
+- [ ] Run a focused security review of InputConnection handling, network boundaries, dependency risk, and API-key storage ([#3](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/3))
+- [ ] Add latency/performance benchmarks for typing responsiveness ([#6](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/6))
 
 ## Medium term
 
@@ -35,7 +35,7 @@ AI Keyboard is currently in **alpha**. The goal is to become a reliable, privacy
 - [ ] Stronger AI output validation
 - [ ] Better error handling and messaging for AI providers
 - [ ] Keyboard UI and typing-experience refinement
-- [ ] Plugin-style provider architecture for more AI providers
+- [ ] Plugin-style provider architecture for more AI providers ([#5](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/5))
 
 ## Long term
 

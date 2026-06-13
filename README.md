@@ -69,7 +69,9 @@ Full policy and reporting instructions: [SECURITY.md](SECURITY.md).
 
 ## Screenshots
 
-The repository cover lives at [`docs/assets/repository-cover.png`](docs/assets/repository-cover.png). The app screenshots below were captured from a clean Android emulator using sample text only, with no personal data and no API keys.
+The repository cover lives at [`docs/assets/repository-cover.png`](docs/assets/repository-cover.png). The app screenshots and short demo below were captured from a clean Android emulator using sample text only, with no personal data and no API keys.
+
+**Demo:** [`docs/screenshots/ai-keyboard-demo.mp4`](docs/screenshots/ai-keyboard-demo.mp4)
 
 | Settings / setup | Keyboard with AI actions |
 |------------------|--------------------------|
@@ -200,7 +202,7 @@ A short selection — see [ROADMAP.md](ROADMAP.md) for the full plan.
 - [x] Public security policy, contribution guide, release notes, and agent instructions
 - [ ] Instrumented IME tests ([#2](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/2))
 - [x] Verified app screenshots captured on emulator
-- [ ] Short demo video ([#1](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/1))
+- [x] Short emulator demo ([#1](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/1))
 - [ ] Custom AI prompt actions
 - [ ] Accessibility review ([#4](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/4))
 - [ ] Security review ([#3](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/3))

@@ -18,10 +18,10 @@ AI Keyboard is currently in **alpha**. The goal is to become a reliable, privacy
 - [x] GitHub issue and pull request templates
 - [x] Public contribution guide, security policy, release notes, and Codex/agent instructions
 - [x] Verified app screenshots captured on emulator and added to the README
+- [x] Short emulator demo linked from the README
 
 ## Short term
 
-- [ ] Record a short emulator/device demo ([#1](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/1))
 - [ ] Add an accessibility checklist ([#4](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/4))
 - [ ] Add instrumented tests for `InputMethodService` / `InputConnection` behavior ([#2](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/2))
 - [ ] Run a focused security review of InputConnection handling, network boundaries, dependency risk, and API-key storage ([#3](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/3))

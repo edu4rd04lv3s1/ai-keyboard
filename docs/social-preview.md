@@ -1,8 +1,8 @@
 # Social preview & public presentation
 
 Reference for presenting the repository publicly (GitHub social preview, About field,
-short pitch, and verified screenshots). Nothing here invents features — it describes
-the project as it exists today.
+short pitch, verified screenshots, and demo media). Nothing here invents features — it
+describes the project as it exists today.
 
 ## Repository social preview
 
@@ -43,6 +43,7 @@ so this step is manual:
 
 Real screenshots are stored under `docs/screenshots/`:
 
+- [x] `docs/screenshots/ai-keyboard-demo.mp4` — short emulator demo
 - [x] `docs/screenshots/keyboard-main.png` — keyboard open with the suggestion bar
 - [x] `docs/screenshots/ai-actions.png` — the on-demand AI action bar
 - [x] `docs/screenshots/settings.png` — settings / setup screen

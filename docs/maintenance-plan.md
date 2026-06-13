@@ -27,7 +27,6 @@ maintenance.
 
 The next public milestones are:
 
-- Record a short demo captured from an emulator or device.
 - Add instrumented tests for `InputMethodService` and `InputConnection` behavior.
 - Run a focused security review of network boundaries, encrypted key storage, and AI
   output validation.

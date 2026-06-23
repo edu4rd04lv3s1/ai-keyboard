@@ -77,6 +77,6 @@ capable, community-maintainable keyboard for an underserved language.
 ## Honest status
 
 Alpha. The foundation works and is tested, but it still needs instrumented IME tests,
-device testing across manufacturers, accessibility review, UI polish, and
+device testing across manufacturers, accessibility implementation, UI polish, and
 community feedback. None of the claims above describe unbuilt features — they describe what
 exists today plus clearly-labeled roadmap work.

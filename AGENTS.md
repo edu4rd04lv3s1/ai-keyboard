@@ -10,8 +10,8 @@ privacy-sensitive because keyboards can observe arbitrary user text.
 - Preserve the privacy model: local typing, suggestions, and autocorrection must stay
   on-device and must not make network requests.
 - AI requests are allowed only after an explicit user action on an AI action chip.
-- Never embed API keys, tokens, credentials, analytics identifiers, or personal data in
-  code, tests, docs, screenshots, releases, or build artifacts.
+- Never embed API keys, tokens, credentials, analytics identifiers, personal data, or
+  private messages in code, tests, docs, screenshots, releases, or build artifacts.
 - Keep Brazilian Portuguese behavior first-class, including slang, abbreviations,
   laughter tokens, informal writing, and field-aware safety.
 - Prefer small, reviewable changes with tests.
@@ -46,10 +46,21 @@ Before proposing or merging a change:
 - Check that password, email, URL, and numeric fields still disable unsafe typing
   assistance where appropriate.
 - Check that new AI behavior cannot run automatically in the background.
-- Add or update tests for typing, field policy, prompt/output validation, or provider
-  behavior when relevant.
-- Update `README.md`, `SECURITY.md`, or `ROADMAP.md` when the user-facing privacy,
-  security, or release story changes.
+- Add or update tests for typing, field policy, prompt/output validation, provider
+  behavior, or accessibility when relevant.
+- Update `README.md`, `SECURITY.md`, `ROADMAP.md`, or `docs/accessibility-review.md`
+  when the user-facing privacy, security, accessibility, or release story changes.
+
+## Accessibility checklist for agents
+
+- Preserve touch targets at 48 dp or larger where possible.
+- Decorative icons should keep `contentDescription = null`; icon-only actions need a
+  meaningful accessible label.
+- For custom keyboard drawing, remember that Canvas-rendered keys are not automatically
+  discoverable by screen readers. Any accessibility work must account for virtual nodes
+  or another explicit accessibility strategy.
+- Do not regress text scaling, contrast, focus order, TalkBack labels, or hardware
+  keyboard navigation in the setup/settings flow.
 
 ## Screenshot and demo rules
 

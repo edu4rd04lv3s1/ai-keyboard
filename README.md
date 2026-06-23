@@ -40,7 +40,8 @@ This repository is prepared for public collaboration and AI-assisted maintenance
 - **Tests:** 88 unit tests cover core typing, field policy, AI transformation, and output validation logic.
 - **Security:** [SECURITY.md](SECURITY.md) documents vulnerability reporting, key handling, and network expectations.
 - **Maintainer workflow:** [AGENTS.md](AGENTS.md) gives Codex and other coding agents project-specific safety rules.
-- **Roadmap:** [ROADMAP.md](ROADMAP.md) tracks alpha gaps such as a short demo, instrumented IME tests, accessibility review, and performance benchmarks.
+- **Accessibility:** [docs/accessibility-review.md](docs/accessibility-review.md) records the first accessibility review and follow-up work.
+- **Roadmap:** [ROADMAP.md](ROADMAP.md) tracks alpha gaps such as instrumented IME tests, accessibility implementation, and performance benchmarks.
 
 ## Key features
 
@@ -204,7 +205,8 @@ A short selection — see [ROADMAP.md](ROADMAP.md) for the full plan.
 - [x] Verified app screenshots captured on emulator
 - [x] Short emulator demo ([#1](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/1))
 - [ ] Custom AI prompt actions
-- [ ] Accessibility review ([#4](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/4))
+- [x] First accessibility review and checklist ([#4](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/4))
+- [ ] Accessibility implementation follow-ups
 - [ ] Security review ([#3](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/3))
 - [ ] Performance benchmarks ([#6](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/6))
 

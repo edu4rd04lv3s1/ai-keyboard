@@ -19,10 +19,13 @@ AI Keyboard is currently in **alpha**. The goal is to become a reliable, privacy
 - [x] Public contribution guide, security policy, release notes, and Codex/agent instructions
 - [x] Verified app screenshots captured on emulator and added to the README
 - [x] Short emulator demo linked from the README
+- [x] First accessibility review and checklist
 
 ## Short term
 
-- [ ] Add an accessibility checklist ([#4](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/4))
+- [ ] Implement keyboard TalkBack support for Canvas-rendered keys
+- [ ] Add explicit accessibility labels for setup/settings icon-only controls and API-key fields
+- [ ] Add accessibility announcements for keyboard busy/error/listening states
 - [ ] Add instrumented tests for `InputMethodService` / `InputConnection` behavior ([#2](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/2))
 - [ ] Run a focused security review of InputConnection handling, network boundaries, dependency risk, and API-key storage ([#3](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/3))
 - [ ] Add latency/performance benchmarks for typing responsiveness ([#6](https://github.com/edu4rd04lv3s1/ai-keyboard/issues/6))

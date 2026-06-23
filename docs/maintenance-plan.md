@@ -30,8 +30,8 @@ The next public milestones are:
 - Add instrumented tests for `InputMethodService` and `InputConnection` behavior.
 - Run a focused security review of network boundaries, encrypted key storage, and AI
   output validation.
-- Add an accessibility checklist for keyboard layout, touch targets, labels, and setup
-  flow.
+- Implement the accessibility follow-ups from `docs/accessibility-review.md`, especially
+  TalkBack support for Canvas-rendered keyboard keys.
 - Add latency benchmarks so typing responsiveness does not regress.
 
 ## How Codex helps
